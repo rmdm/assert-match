@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rmdm/assert-match.svg?branch=master)](https://travis-ci.org/rmdm/assert-match)
+
 assert-match
 ===============
 
@@ -19,7 +21,7 @@ Assertions
 ### ```assert (obj)```
 
 The function returned by imported module. Can be used to extend any passed
-**obj** object in it, for example, standatd `assert` module:
+**obj** object in it, for example, standard `assert` module:
 
 ```javascript
 const assert = require('assert')
@@ -40,9 +42,6 @@ const assert = require('assert-match')
 assert.match(actual, expected)
 ```
 
-Assertions
-==========
-
 ### ```assert.match (actual, expected, message)```
 
 Tests whether the set of properties of the **actual** arg is superset of
@@ -54,7 +53,7 @@ properties sets comparison.
 ### ```assert.strictMatch (actual, expected, message)```
 
 Same as `match`, but primitives are compared with `===`. Comparable to
-`assert`'s `deepStrictMatch`.
+`assert`'s `deepStrictEqual`.
 
 ### ```assert.notMatch (actual, expected, message)```
 
