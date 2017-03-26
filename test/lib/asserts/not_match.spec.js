@@ -36,12 +36,21 @@ describe('notMatch assert', function () {
         } catch (e) {
 
             assert(e instanceof assert.AssertionError)
-            assert.deepStrictEqual(e.actual, {a: 1})
-            assert.deepStrictEqual(e.expected, {a: '1'})
+            assert.deepEqual(e.actual, {a: 1})
+            assert.deepEqual(e.expected, {a: '1'})
             assert.equal(e.operator, 'notMatch')
-            assert.equal(e.message, '{ a: 1 } notMatch { a: \'1\' }')
-            assert.equal(e.generatedMessage, true)
+            assert(/ notMatch /.test(e.message)) // { a: 1 } notMatch { a: '1' }
         }
+    })
+
+    it('does not throw when not equal primitives are matched', function () {
+        notMatch(5, 10)
+    })
+
+    it('throws when equal primitives are matched', function () {
+        assert.throws(function () {
+            notMatch(5, '5')
+        })
     })
 
 })

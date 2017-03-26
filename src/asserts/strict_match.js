@@ -1,4 +1,7 @@
 import assert from 'assert'
+import fallbackAssert from 'core-assert'
 import buildAssertion from '../util/build_assertion'
 
-export default buildAssertion('strictMatch', assert.deepStrictEqual)
+const deepStrictEqual = assert.deepStrictEqual || fallbackAssert.deepStrictEqual
+
+export default buildAssertion('strictMatch', deepStrictEqual)

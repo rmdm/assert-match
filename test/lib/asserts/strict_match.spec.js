@@ -36,12 +36,21 @@ describe('strictMatch assert', function () {
         } catch (e) {
 
             assert(e instanceof assert.AssertionError)
-            assert.deepStrictEqual(e.actual, {a: 1})
-            assert.deepStrictEqual(e.expected, {a: '1'})
+            assert.deepEqual(e.actual, {a: 1})
+            assert.deepEqual(e.expected, {a: '1'})
             assert.equal(e.operator, 'strictMatch')
-            assert.equal(e.message, '{ a: 1 } strictMatch { a: \'1\' }')
-            assert.equal(e.generatedMessage, true)
+            assert(/ strictMatch /.test(e.message)) // { a: 1 } strictMatch { a: '1' }
         }
+    })
+
+    it('does not throw when equal primitives are matched strictly', function () {
+        strictMatch(5, 5)
+    })
+
+    it('throws when not strictly equal primitives are matched', function () {
+        assert.throws(function () {
+            strictMatch(5, '5')
+        })
     })
 
 })

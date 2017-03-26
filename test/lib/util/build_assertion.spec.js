@@ -25,8 +25,7 @@ describe('buildAssertion utility', function () {
             assert.deepEqual(e.actual, {a: 1})
             assert.deepEqual(e.expected, {a: 2})
             assert.equal(e.operator, 'match')
-            assert.equal(e.message, '{ a: 1 } match { a: 2 }')
-            assert.equal(e.generatedMessage, true)
+            assert(/ match /.test(e.message)) // { a: 1 } match { a: 2 }
         }
 
     })
