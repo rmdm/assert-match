@@ -50,9 +50,9 @@ describe('match assert', function () {
     })
 
     it('throws when not equal primitives are matched', function () {
-        // assert.throws(function () {
+        assert.throws(function () {
             match({a: 1, b: 2, c: 3}, {a: 10})
-        // })
+        })
     })
 
 })

@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/rmdm/assert-match.svg?branch=master)](https://travis-ci.org/rmdm/assert-match)
+[![Coverage Status](https://coveralls.io/repos/github/rmdm/assert-match/badge.svg?branch=master)](https://coveralls.io/github/rmdm/assert-match?branch=master)
 
 assert-match
 ===============
