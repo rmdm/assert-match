@@ -9,6 +9,19 @@ standard deep equality comparision assertions, which requires two arguments to
 have exactly the same sets of properties, `assert-match`' assertions requires
 one's arg properties to be superset of another arg properties.
 
+Rationale
+=========
+
+There are times when I need to check only subset of an object porperties to have
+specific values. Hence this module. An alternative approach would be to use a
+combination of standard `assert` and some utility library providing matching
+capability, for example `_.isMatch`. `assert-match` has the following
+advantages:
+
+- it provides your test runner with hints about actual and expected
+outcomes of the test
+- gives your more consistent results with family of standard `deep`-assertions
+
 Installation
 ============
 
@@ -16,13 +29,13 @@ Installation
     npm install assert-match
 ```
 
-Assertions
-==========
+Usage
+=====
 
 ### ```assert (obj)```
 
-The function returned by imported module. Can be used to extend any passed
-**obj** object in it, for example, standard `assert` module:
+The function returned by the module. Can be used to extend any passed **obj**
+object in it, for example, standard `assert` module:
 
 ```javascript
 const assert = require('assert')
@@ -42,6 +55,9 @@ const assert = require('assert-match')
 
 assert.match(actual, expected)
 ```
+
+Assertions
+----------
 
 ### ```assert.match (actual, expected, message)```
 
@@ -71,7 +87,7 @@ Examples
 
 ```javascript
 
-import assert from 'assert'
+import assert from 'assert-match'
 
 describe('examples', function () {
 
