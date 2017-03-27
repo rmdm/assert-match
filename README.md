@@ -18,7 +18,7 @@ combination of standard `assert` and some utility library providing matching
 capability, for example `_.isMatch`. `assert-match` has the following
 advantages:
 
-- it provides your test runner with hints about actual and expected
+- it provides your test runner with the hints on actual and expected
 outcomes of the test
 - gives your more consistent results with family of standard `deep`-assertions
 
