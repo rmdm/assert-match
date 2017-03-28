@@ -45,13 +45,27 @@ describe('match assert', function () {
         }
     })
 
+    it('able to match objects with null prototype', function () {
+
+        const first = Object.create(null, {
+                a: {
+                    value: 5,
+                    enumerable: true
+                }
+            }),
+            second = { a: 5 }
+
+        match(first, second)
+
+    })
+
     it('does not throw when equal primitives are matched', function () {
         match(5, '5')
     })
 
     it('throws when not equal primitives are matched', function () {
         assert.throws(function () {
-            match({a: 1, b: 2, c: 3}, {a: 10})
+            match(5, 6)
         })
     })
 

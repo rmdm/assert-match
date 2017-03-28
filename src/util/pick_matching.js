@@ -20,7 +20,11 @@ function pickMatchingProps (obj, obj2) {
         return obj
     }
 
-    const result = {}
+    let result = {}
+
+    if (Array.isArray(obj)) {
+        result = []
+    }
 
     for (let key in obj2) {
 

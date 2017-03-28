@@ -52,7 +52,7 @@ describe('pickMatching utility', function () {
 
         const result = pickMatching(first, second)
 
-        assert.deepEqual(result, {c: 10})
+        assert.deepStrictEqual(result, {c: 10})
     })
 
     it('returns object when mathing object has deeper props', function () {
@@ -70,7 +70,7 @@ describe('pickMatching utility', function () {
 
         const result = pickMatching(first, second)
 
-        assert.deepEqual(result, {a: 1})
+        assert.deepStrictEqual(result, {a: 1})
     })
 
     it('returns object when mathing object has less deep props', function () {
@@ -88,7 +88,30 @@ describe('pickMatching utility', function () {
 
         const result = pickMatching(first, second)
 
-        assert.deepEqual(result, {a: {b: {c: 1}}})
+        assert.deepStrictEqual(result, {a: {b: {c: 1}}})
+    })
+
+    it('returns object with deep array, when both objects has it', function () {
+
+        const first = {
+                a: {
+                    b: {
+                        c: [ { d: 5 } ],
+                    }
+                }
+            },
+            second = {
+                a: {
+                    b: {
+                        c: [ { d: 10 } ],
+                    }
+                }
+            }
+
+        const result = pickMatching(first, second)
+
+        assert.deepStrictEqual(result, {a: {b: {c: [ { d: 5 } ]}}})
+
     })
 
 })
