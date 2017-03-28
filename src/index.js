@@ -22,4 +22,3 @@ asserts.strictMatch = strictMatch
 asserts.notStrictMatch = notStrictMatch
 
 export default asserts
-export {match, strictMatch, notMatch, notStrictMatch}

@@ -23,7 +23,9 @@ function pickMatchingProps (obj, obj2) {
     const result = {}
 
     for (let key in obj2) {
-        if (obj2.hasOwnProperty(key) && obj.hasOwnProperty(key)) {
+
+        if (Object.prototype.hasOwnProperty.call(obj2, key) &&
+            Object.prototype.hasOwnProperty.call(obj, key)) {
             result[key] = pickMatchingProps(obj[key], obj2[key])
         }
     }
