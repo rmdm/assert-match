@@ -1,6 +1,7 @@
 'use strict'
 
 import assert from 'assert'
+import sinon from 'sinon'
 import buildAssertion from '../../../src/util/build_assertion'
 
 describe('buildAssertion utility', function () {
@@ -8,7 +9,7 @@ describe('buildAssertion utility', function () {
     it('returns matching assertion', function () {
 
         const name = 'match'
-        const comparator = assert.deepEqual
+        const comparator = sinon.stub().returns(true)
 
         const assertion = buildAssertion(name, comparator)
 
@@ -16,6 +17,7 @@ describe('buildAssertion utility', function () {
 
         try {
 
+            comparator.returns(false)
             assertion({a: 1}, {a: 2})
 
             throw new Error('assertion has unexpectedly not thrown.')

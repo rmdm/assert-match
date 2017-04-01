@@ -1,23 +1,23 @@
 'use strict'
 
 import assert from 'assert'
-// import pickMatching from './pick_matching'
+import { loose } from '../matchers'
 
-export default function buildAssertion (name, baseAssertion) {
+export default function buildAssertion (name, comparator) {
 
     return function assertion (actual, expected, message) {
 
-        const matched = pickMatching(actual, expected)
+        const matcher = loose(expected)
+        const result = matcher.match(actual, comparator)
 
-        try {
-            baseAssertion(matched, expected, message)
-        } catch (e) {
+        if (!result.match) {
 
             throw new assert.AssertionError({
-                actual: matched,
-                expected: expected,
+                actual: result.actual,
+                expected: result.expected,
                 operator: name,
                 stackStartFunction: assertion,
+                message: message,
             })
         }
     }

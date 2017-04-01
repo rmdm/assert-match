@@ -18,15 +18,19 @@ export default class Matcher  {
     check (actual, comparator) {
 
         let actualExpectedMatch = true
+        let matchingActual = actual
 
         // reset actualExpectedMatch if there is something to check
         if (this.matcherlessExpected !== NOTHING) {
 
-            const matchingActual = pickMatching(actual,
+            matchingActual = pickMatching(actual,
                     this.matcherlessExpected)
 
             actualExpectedMatch = comparator(matchingActual,
                     this.matcherlessExpected)
+
+            matchingActual = pickMatching(actual,
+                    this.expected)
         }
 
         let matchers = matchMatchers(actual, this.expected)
@@ -40,7 +44,7 @@ export default class Matcher  {
 
         const overallMatch = actualExpectedMatch && matchers.match
 
-        const result = { match: overallMatch }
+        const result = { match: overallMatch, actual: matchingActual }
 
         // expected returned either way because there may be not matching parts
         // somewhere up in the hierarchy so we do not want to test runner to
@@ -62,6 +66,10 @@ export default class Matcher  {
 }
 
 function pickMatching (actual, expected) {
+
+    if (isMatcher(expected)) {
+        return actual
+    }
 
     if (!actual || typeof actual !== 'object' ||
         !expected || typeof expected !== 'object') {

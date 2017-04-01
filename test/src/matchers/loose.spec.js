@@ -4,7 +4,7 @@ import assert from 'assert'
 import sinon from 'sinon'
 import Loose from '../../../src/matchers/loose'
 
-describe.only('Loose matcher', function () {
+describe('Loose matcher', function () {
 
     describe('match', function () {
 
@@ -61,7 +61,8 @@ describe.only('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: true,
-                expected: { a: 5, b: 10 },
+                actual: { a: 5, b: 10 },
+                expected: { a: 5 },
             })
         })
 
@@ -78,6 +79,7 @@ describe.only('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: true,
+                actual: 5,
                 expected: 5,
             })
         })
@@ -96,6 +98,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: false,
+                actual: 5,
                 expected: 10,
             })
         })
@@ -114,6 +117,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: false,
+                actual: 5,
                 expected: { a: 5 },
             })
         })
@@ -132,6 +136,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: false,
+                actual: { a: 5 },
                 expected: 5,
             })
         })
@@ -149,6 +154,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: false,
+                actual: { a: 5 },
                 expected: { a: 15 },
             })
         })
@@ -181,6 +187,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: false,
+                actual: { c: 10 },
                 expected: { c: 11 },
             })
         })
@@ -204,6 +211,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: false,
+                actual: { a: 1 },
                 expected: { a: { b: { c: 1 } } },
             })
         })
@@ -224,6 +232,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: false,
+                actual: { a: { b: { c: 1 } } },
                 expected: { a: 1 },
             })
         })
@@ -244,6 +253,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: false,
+                actual: { a: { b: { c: [ { d: 5 } ] } } },
                 expected: { a: { b: { c: [ { d: 10 } ] } } },
             })
         })
@@ -269,6 +279,7 @@ describe.only('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: true,
+                actual: { a: 5, b: 10 },
                 expected: { a: 5, b: 10 },
             })
         })
@@ -297,6 +308,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: true,
+                actual: { a: 5, b: 11 },
                 expected: { a: 5, b: 'ten' },
             })
         })
@@ -325,6 +337,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: false,
+                actual: { a: 5, b: 10 },
                 expected: { a: 6, b: 10 },
             })
         })
@@ -354,6 +367,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: false,
+                actual: { a: 5, b: 11 },
                 expected: { a: 6, b: 'ten' },
             })
         })
@@ -381,6 +395,7 @@ describe.only('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: true,
+                actual: 10,
                 expected: 10,
             })
         })
@@ -409,6 +424,7 @@ describe.only('Loose matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 inherited: false,
+                actual: 10,
                 expected: { a: 'ten' },
             })
         })
