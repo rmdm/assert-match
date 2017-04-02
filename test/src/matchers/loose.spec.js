@@ -61,7 +61,7 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: true,
-                actual: { a: 5, b: 10 },
+                actual: { a: 5 },
                 expected: { a: 5 },
             })
         })

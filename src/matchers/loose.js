@@ -49,7 +49,7 @@ export default class Matcher  {
         // expected returned either way because there may be not matching parts
         // somewhere up in the hierarchy so we do not want to test runner to
         // blame this part
-        result.expected = overallMatch ? actual : overallExpected
+        result.expected = overallMatch ? matchingActual : overallExpected
 
         // inherited flag makes sense only in case of mismatch
         if (!actualExpectedMatch || !matchers.match) {
