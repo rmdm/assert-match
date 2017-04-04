@@ -24,14 +24,16 @@ export default class Matcher  {
         // reset actualExpectedMatch if there is something to check
         if (matcherlessExpected !== NOTHING) {
 
-            matchingActual = pickMatching(actual,
-                    matcherlessExpected)
-
-            actualExpectedMatch = comparator(matchingActual,
-                    matcherlessExpected)
-
-            matchingActual = pickMatching(actual,
+            matchingActual = pickMatcherless(actual,
                     this.expected)
+
+            if (matchingActual !== NOTHING) {
+
+                actualExpectedMatch = comparator(matchingActual,
+                        matcherlessExpected)
+            }
+
+            matchingActual = actual
         }
 
         let matchers = matchMatchers(actual, this.expected)
@@ -66,13 +68,13 @@ export default class Matcher  {
 
 }
 
-function pickMatching (actual, expected) {
+function pickMatcherless (actual, expected) {
 
     if (isMatcher(expected)) {
-        return actual
+        return NOTHING
     }
 
-    if (!isObject(actual) || !isObject(expected)) {
+    if (!isObject(actual)) {
         return actual
     }
 
@@ -82,10 +84,14 @@ function pickMatching (actual, expected) {
         result = []
     }
 
-    for (let key in expected) {
+    for (let key in actual) {
 
-        if (hasOwn(expected, key) && hasOwn(actual, key)) {
-            result[key] = pickMatching(actual[key], expected[key])
+        let expectedValue = isObject(expected)
+            ? expected[key]
+            : undefined
+
+        if (hasOwn(actual, key) && !isMatcher(expectedValue)) {
+            result[key] = pickMatcherless(actual[key], expectedValue)
         }
     }
 

@@ -1,3 +1,5 @@
+'use strict'
+
 import Loose from './loose'
 
 export default {
