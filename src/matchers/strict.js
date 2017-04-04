@@ -1,10 +1,8 @@
 'use strict'
 
-const merge = require('lodash.merge')
+const _merge = require('lodash.merge')
 
-const NOTHING = Symbol('nothing')
-
-export default class Matcher  {
+export default class StrictMatcher  {
 
     constructor (expected) {
         this.expected = expected
@@ -16,54 +14,35 @@ export default class Matcher  {
 
     check (actual, comparator) {
 
-        let actualExpectedMatch = true
-        let matchingActual = actual
+        let matcherlessActual = this._getActual(actual, this.expected)
+        let matcherlessExpected = this._getExpected(actual, this.expected)
 
-        const matcherlessExpected = omitMatchers(this.expected)
+        let isMatch = comparator(matcherlessActual, matcherlessExpected)
 
-        // reset actualExpectedMatch if there is something to check
-        if (matcherlessExpected !== NOTHING) {
+        const appliedMatchers = this._applyMatchers(actual, this.expected, comparator)
 
-            matchingActual = pickMatcherless(actual,
-                    this.expected)
+        isMatch = isMatch && appliedMatchers.match
 
-            if (matchingActual !== NOTHING) {
+        matcherlessActual = merge(matcherlessActual, appliedMatchers.actual)
+        matcherlessExpected = merge(matcherlessExpected, appliedMatchers.expected)
 
-                actualExpectedMatch = comparator(matchingActual,
-                        matcherlessExpected)
-            }
-
-            matchingActual = actual
+        return {
+            match: isMatch,
+            actual: matcherlessActual,
+            expected: matcherlessExpected,
         }
-
-        let matchers = matchMatchers(actual, this.expected)
-
-        let overallExpected = matcherlessExpected
-
-        if (matchers.expected !== NOTHING) {
-            overallExpected = merge({}, matchers.expected,
-                    matcherlessExpected)
-        }
-
-        const overallMatch = actualExpectedMatch && matchers.match
-
-        const result = { match: overallMatch, actual: matchingActual }
-
-        // expected returned either way because there may be not matching parts
-        // somewhere up in the hierarchy so we do not want to test runner to
-        // blame this part
-        result.expected = overallMatch ? matchingActual : overallExpected
-
-        // inherited flag makes sense only in case of mismatch
-        if (!actualExpectedMatch || !matchers.match) {
-            result.inherited = actualExpectedMatch && !matchers.match
-        }
-
-        return result
     }
 
-    description () {
-        return null
+    _getActual (actual, expected) {
+        return pickMatcherless(actual, expected)
+    }
+
+    _getExpected (actual, expected) {
+        return omitMatchers(expected)
+    }
+
+    _applyMatchers (actual, expected, comparator) {
+        return applyMatchers(actual, expected, comparator)
     }
 
 }
@@ -71,122 +50,48 @@ export default class Matcher  {
 function pickMatcherless (actual, expected) {
 
     if (isMatcher(expected)) {
-        return NOTHING
+        return undefined
     }
 
     if (!isObject(actual)) {
         return actual
     }
 
-    let result = {}
-
-    if (Array.isArray(actual)) {
-        result = []
-    }
+    const result = Array.isArray(actual) ? [] : {}
 
     for (let key in actual) {
 
-        let expectedValue = isObject(expected)
-            ? expected[key]
-            : undefined
+        if (hasOwn(actual, key)) {
 
-        if (hasOwn(actual, key) && !isMatcher(expectedValue)) {
-            result[key] = pickMatcherless(actual[key], expectedValue)
+            const expectedValue = hasOwn(expected, key)
+                ? expected[key]
+                : undefined
+
+            // undefined in place of a matcher is ok only for top level
+            if (!isMatcher(expectedValue)) {
+                result[key] = pickMatcherless(actual[key], expectedValue)
+            }
         }
     }
 
     return result
 }
 
-function matchMatchers (actual, expected) {
-
-    if (isMatcher(expected)) {
-
-        let matchResult = applyMatch(expected, actual)
-
-        return {
-            expected: matchResult.expected,
-            match: matchResult.match,
-        }
-    }
-
-    if (!isObject(expected)) {
-        return {
-            expected: NOTHING,
-            match: true,
-        }
-    }
-
-    let matched = {},
-        match = true,
-        somethingMatched = false
-
-    if (Array.isArray(actual)) {
-        matched = []
-    }
-
-    for (let key in expected) {
-
-        if (hasOwn(expected, key)) {
-
-            let actualValue = isObject(actual)
-                ? actual[key]
-                : undefined
-
-            const v = matchMatchers(actualValue, expected[key])
-
-            if (v.expected !== NOTHING) {
-                matched[key] = v.expected
-                match = match && v.match
-                somethingMatched = true
-            }
-        }
-    }
-
-    return {
-        expected: somethingMatched ? matched : NOTHING,
-        match: match,
-    }
-}
-
-function applyMatch (matcher, arg) {
-
-    const result = matcher.match(arg)
-    const description = matcher.description()
-
-    let matched
-
-    if (result.match) {
-        matched = arg
-    } else if (result.inherited || !description) {
-        matched = result.expected
-    } else {
-        matched = description
-    }
-
-    return {
-        expected: matched,
-        match: result.match,
-    }
-}
-
 function omitMatchers (expected) {
 
     if (isMatcher(expected)) {
-        return NOTHING
+        return undefined
     }
 
     if (!isObject(expected)) {
         return expected
     }
 
-    let result = {}
-
-    if (Array.isArray(expected)) {
-        result = []
-    }
+    let result = Array.isArray(expected) ? [] : {}
 
     for (let key in expected) {
+
+        // undefined in place of a matcher is ok only for top level
         if (hasOwn(expected, key) && !isMatcher(expected[key])) {
             result[key] = omitMatchers(expected[key])
         }
@@ -195,14 +100,75 @@ function omitMatchers (expected) {
     return result
 }
 
+function applyMatchers (actual, expected, comparator) {
+
+    if (isMatcher(expected)) {
+        return expected.match(actual, comparator)
+    }
+
+    if (!isObject(expected)) {
+        return {
+            match: true,
+            actual: undefined,
+            expected: undefined,
+        }
+    }
+
+    const result = {
+        match: true,
+        actual: undefined,
+        expected: undefined,
+    }
+
+    for (let key in expected) {
+
+        if (hasOwn(expected, key)) {
+
+            let actualValue = hasOwn(actual, key) ? actual[key] : undefined
+
+            const v = applyMatchers(actualValue, expected[key], comparator)
+
+            result.match = result.match && v.match
+
+            if (v.actual !== undefined) {
+                result.actual = Array.isArray(actual) ? [] : {}
+                result.actual[key] = v.actual
+            }
+
+            if (v.expected !== undefined) {
+                result.expected = Array.isArray(actual) ? [] : {}
+                result.expected[key] = v.expected
+            }
+        }
+    }
+
+    return result
+}
+
 function hasOwn (obj, key) {
-    return Object.prototype.hasOwnProperty.call(obj, key)
+    return isObject(obj) && Object.prototype.hasOwnProperty.call(obj, key)
 }
 
 function isMatcher (obj) {
-    return obj instanceof Matcher
+    return obj instanceof StrictMatcher
 }
 
 function isObject (obj) {
     return obj && typeof obj === 'object'
+}
+
+function merge (a, b) {
+
+    // it is supposed that if both parts are not == to undef than they should be
+    // objects
+
+    if (a === undefined) {
+        return b
+    }
+
+    if (b === undefined) {
+        return a
+    }
+
+    return _merge({}, a, b)
 }

@@ -97,7 +97,6 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: false,
                 actual: 5,
                 expected: 10,
             })
@@ -116,7 +115,6 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: false,
                 actual: 5,
                 expected: { a: 5 },
             })
@@ -135,7 +133,6 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: false,
                 actual: { a: 5 },
                 expected: 5,
             })
@@ -153,7 +150,6 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: false,
                 actual: { a: 5 },
                 expected: { a: 15 },
             })
@@ -186,7 +182,6 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: false,
                 actual: { c: 10 },
                 expected: { c: 11 },
             })
@@ -210,7 +205,6 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: false,
                 actual: { a: 1 },
                 expected: { a: { b: { c: 1 } } },
             })
@@ -231,7 +225,6 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: false,
                 actual: { a: { b: { c: 1 } } },
                 expected: { a: 1 },
             })
@@ -252,7 +245,6 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: false,
                 actual: { a: { b: { c: [ { d: 5 } ] } } },
                 expected: { a: { b: { c: [ { d: 10 } ] } } },
             })
@@ -264,6 +256,7 @@ describe('Loose matcher', function () {
 
             sinon.stub(ten, 'match').returns({
                 match: true,
+                actual: 10,
                 expected: 10,
             })
 
@@ -290,10 +283,9 @@ describe('Loose matcher', function () {
 
             sinon.stub(ten, 'match').returns({
                 match: false,
-                expected: 10,
+                actual: 11,
+                expected: '[ten]',
             })
-
-            sinon.stub(ten, 'description').returns('ten')
 
             const actual = { a: 5, b: 11 },
                 expected = { a: 5, b: ten }
@@ -307,9 +299,8 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: true,
                 actual: { a: 5, b: 11 },
-                expected: { a: 5, b: 'ten' },
+                expected: { a: 5, b: '[ten]' },
             })
         })
 
@@ -319,10 +310,9 @@ describe('Loose matcher', function () {
 
             sinon.stub(ten, 'match').returns({
                 match: true,
+                actual: 10,
                 expected: 10,
             })
-
-            sinon.stub(ten, 'description').returns('ten')
 
             const actual = { a: 5, b: 10 },
                 expected = { a: 6, b: ten }
@@ -336,7 +326,6 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: false,
                 actual: { a: 5, b: 10 },
                 expected: { a: 6, b: 10 },
             })
@@ -349,10 +338,9 @@ describe('Loose matcher', function () {
 
             sinon.stub(ten, 'match').returns({
                 match: false,
-                expected: 10,
+                actual: 11,
+                expected: '[ten]',
             })
-
-            sinon.stub(ten, 'description').returns('ten')
 
             const actual = { a: 5, b: 11 },
                 expected = { a: 6, b: ten }
@@ -366,9 +354,8 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: false,
                 actual: { a: 5, b: 11 },
-                expected: { a: 6, b: 'ten' },
+                expected: { a: 6, b: '[ten]' },
             })
         })
 
@@ -378,10 +365,9 @@ describe('Loose matcher', function () {
 
             sinon.stub(ten, 'match').returns({
                 match: true,
+                actual: 10,
                 expected: 10,
             })
-
-            sinon.stub(ten, 'description').returns('ten')
 
             const actual = 10,
                 expected = ten
@@ -390,8 +376,6 @@ describe('Loose matcher', function () {
             comparator.returns(true)
 
             const result = loose.check(actual, comparator)
-
-            assert(comparator.notCalled)
 
             assert.deepEqual(result, {
                 match: true,
@@ -406,11 +390,9 @@ describe('Loose matcher', function () {
 
             sinon.stub(ten, 'match').returns({
                 match: false,
-                inherited: false,
-                expected: 10,
+                actual: undefined,
+                expected: '[ten]',
             })
-
-            sinon.stub(ten, 'description').returns('ten')
 
             const actual = 10, expected = { a: ten }
 
@@ -423,9 +405,8 @@ describe('Loose matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                inherited: false,
                 actual: 10,
-                expected: { a: 'ten' },
+                expected: { a: '[ten]' },
             })
         })
 

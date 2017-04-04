@@ -1,13 +1,13 @@
 'use strict'
 
 import assert from 'assert'
-import { loose } from '../matchers'
+import { loose, strict } from '../matchers'
 
 export default function buildAssertion (name, comparator) {
 
     return function assertion (actual, expected, message) {
 
-        const matcher = loose(expected)
+        const matcher = strict(loose(loose(loose(expected))))
         const result = matcher.match(actual, comparator)
 
         if (!result.match) {
