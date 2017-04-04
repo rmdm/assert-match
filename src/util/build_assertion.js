@@ -7,7 +7,7 @@ export default function buildAssertion (name, comparator) {
 
     return function assertion (actual, expected, message) {
 
-        const matcher = strict(loose(loose(loose(expected))))
+        const matcher = loose(expected)
         const result = matcher.match(actual, comparator)
 
         if (!result.match) {

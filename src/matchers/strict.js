@@ -17,7 +17,11 @@ export default class StrictMatcher  {
         let matcherlessActual = this._getActual(actual, this.expected)
         let matcherlessExpected = this._getExpected(actual, this.expected)
 
-        let isMatch = comparator(matcherlessActual, matcherlessExpected)
+        let isMatch = true
+
+        if (matcherlessActual !== undefined && matcherlessExpected !== undefined) {
+            isMatch = comparator(matcherlessActual, matcherlessExpected)
+        }
 
         const appliedMatchers = this._applyMatchers(actual, this.expected, comparator)
 
