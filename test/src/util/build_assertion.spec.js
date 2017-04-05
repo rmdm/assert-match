@@ -10,14 +10,23 @@ describe('buildAssertion utility', function () {
 
         const name = 'match'
         const comparator = sinon.stub().returns(true)
+        const match = sinon.stub()
 
-        const assertion = buildAssertion(name, comparator)
+        const initMatcher = sinon.stub().returns({
+            match: match,
+        })
+
+        const assertion = buildAssertion(assert, name, initMatcher, comparator)
+
+        match.returns({ match: true })
 
         assertion({a: 1, b: 2}, {a: 1})
 
         try {
 
+            match.returns({ match: false, expected: { a: 2 }, actual: { a: 1 } })
             comparator.returns(false)
+
             assertion({a: 1}, {a: 2})
 
             throw new Error('assertion has unexpectedly not thrown.')

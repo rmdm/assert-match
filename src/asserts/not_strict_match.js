@@ -1,15 +1,21 @@
-import assert from 'assert'
 import fallbackAssert from 'core-assert'
 import buildAssertion from '../util/build_assertion'
+import { loose } from '../matchers'
 
-const notDeepStrictEqual = assert.notDeepStrictEqual ||
-        fallbackAssert.notDeepStrictEqual
+export default function (baseAssert) {
 
-export default buildAssertion('notStrictMatch', function (actual, expected) {
-    try {
-        notDeepStrictEqual(actual, expected)
-        return true
-    } catch (e) {
-        return false
+    function comparator (actual, expected) {
+        try {
+            if (baseAssert.notDeepStrictEqual) {
+                baseAssert.notDeepStrictEqual(actual, expected)
+            } else {
+                fallbackAssert.notDeepStrictEqual(actual, expected)
+            }
+            return true
+        } catch (e) {
+            return false
+        }
     }
-})
+
+    return buildAssertion(baseAssert, 'notStrictMatch', loose, comparator)
+}

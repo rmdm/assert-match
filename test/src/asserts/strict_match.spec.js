@@ -1,9 +1,15 @@
 'use strict'
 
 import assert from 'assert'
-import strictMatch from '../../../src/asserts/strict_match'
+import initStrictMatch from '../../../src/asserts/strict_match'
 
 describe('strictMatch assert', function () {
+
+    let strictMatch
+
+    beforeEach(function () {
+        strictMatch = initStrictMatch(assert)
+    })
 
     it('does not throw when first object strictly matches the second one', function () {
 

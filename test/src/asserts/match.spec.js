@@ -1,9 +1,15 @@
 'use strict'
 
 import assert from 'assert'
-import match from '../../../src/asserts/match'
+import initMatch from '../../../src/asserts/match'
 
 describe('match assert', function () {
+
+    let match
+
+    beforeEach(function () {
+        match = initMatch(assert)
+    })
 
     it('does not throw when first object matches the second one', function () {
 

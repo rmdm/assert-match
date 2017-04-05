@@ -6,7 +6,6 @@ import Strict from './strict'
 export default {
 
     loose: makeMatcher(Loose),
-
     strict: makeMatcher(Strict),
 
 }
