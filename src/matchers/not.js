@@ -12,10 +12,12 @@ export default class NotMatcher extends StrictMatcher {
 
         const result = this.check(actual, comparator)
 
+        let expected = !result.match ? result.actual : { not: result.expected }
+
         return {
             match: !result.match,
             actual: result.actual,
-            expected: { not: result.expected },
+            expected: expected,
         }
     }
 
