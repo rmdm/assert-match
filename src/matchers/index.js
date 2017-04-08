@@ -6,6 +6,7 @@ import Any from './any'
 import Not from './not'
 import Type from './type'
 import Primitive from './primitive'
+import ArrayOf from './array_of'
 
 const matchers = {}
 
@@ -21,6 +22,8 @@ matchers.not = makeMatcher(Not)
 matchers.type = makeMatcher(Type)
 
 matchers.primitive = makeMatcher(Primitive)
+
+matchers.arrayOf = makeMatcher()
 
 function makeMatcher (Ctor) {
     return function wrap (expected) {
