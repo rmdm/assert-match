@@ -1,6 +1,12 @@
 'use strict'
 
 import StrictMatcher from './strict'
+import {
+    hasOwn,
+    isMatcher,
+    isObject,
+    isStandardObject
+} from '../util/utils'
 
 export default class LooseMatcher extends StrictMatcher {
 
@@ -29,7 +35,9 @@ function pickMatching (actual, expected) {
         return actual
     }
 
-    let result = Array.isArray(actual) ? [] : {}
+    let result = Array.isArray(actual)
+        ? []
+        : Object.create(Object.getPrototypeOf(actual))
 
     for (let key in expected) {
 
@@ -39,16 +47,4 @@ function pickMatching (actual, expected) {
     }
 
     return result
-}
-
-function hasOwn (obj, key) {
-    return isObject(obj) && Object.prototype.hasOwnProperty.call(obj, key)
-}
-
-function isMatcher (obj) {
-    return obj instanceof StrictMatcher
-}
-
-function isObject (obj) {
-    return obj && typeof obj === 'object'
 }

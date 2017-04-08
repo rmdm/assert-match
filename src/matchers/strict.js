@@ -1,5 +1,12 @@
 'use strict'
 
+import {
+    hasOwn,
+    isMatcher,
+    isObject,
+    isStandardObject
+} from '../util/utils'
+
 const _merge = require('lodash.merge')
 
 export default class StrictMatcher  {
@@ -19,7 +26,7 @@ export default class StrictMatcher  {
 
         let isMatch = true
 
-        if (matcherlessActual !== undefined && matcherlessExpected !== undefined) {
+        if (matcherlessActual !== undefined || matcherlessExpected !== undefined) {
             isMatch = comparator(matcherlessActual, matcherlessExpected)
         }
 
@@ -57,11 +64,13 @@ function pickMatcherless (actual, expected) {
         return undefined
     }
 
-    if (!isObject(actual)) {
+    if (!isObject(actual) || isStandardObject(actual)) {
         return actual
     }
 
-    const result = Array.isArray(actual) ? [] : {}
+    const result = Array.isArray(actual)
+        ? []
+        : Object.create(Object.getPrototypeOf(actual))
 
     for (let key in actual) {
 
@@ -87,11 +96,13 @@ function omitMatchers (expected) {
         return undefined
     }
 
-    if (!isObject(expected)) {
+    if (!isObject(expected) || isStandardObject(expected)) {
         return expected
     }
 
-    let result = Array.isArray(expected) ? [] : {}
+    let result = Array.isArray(expected)
+        ? []
+        : Object.create(Object.getPrototypeOf(expected))
 
     for (let key in expected) {
 
@@ -110,7 +121,7 @@ function applyMatchers (actual, expected, comparator) {
         return expected.match(actual, comparator)
     }
 
-    if (!isObject(expected)) {
+    if (!isObject(expected) || isStandardObject(expected)) {
         return {
             match: true,
             actual: undefined,
@@ -135,30 +146,24 @@ function applyMatchers (actual, expected, comparator) {
             result.match = result.match && v.match
 
             if (v.actual !== undefined) {
-                result.actual = Array.isArray(actual) ? [] : {}
+                result.actual = Array.isArray(actual)
+                    ? []
+                    : Object.create(Object.getPrototypeOf(actual))
+
                 result.actual[key] = v.actual
             }
 
             if (v.expected !== undefined) {
-                result.expected = Array.isArray(actual) ? [] : {}
+                result.expected = Array.isArray(actual)
+                    ? []
+                    : Object.create(Object.getPrototypeOf(actual))
+
                 result.expected[key] = v.expected
             }
         }
     }
 
     return result
-}
-
-function hasOwn (obj, key) {
-    return isObject(obj) && Object.prototype.hasOwnProperty.call(obj, key)
-}
-
-function isMatcher (obj) {
-    return obj instanceof StrictMatcher
-}
-
-function isObject (obj) {
-    return obj && typeof obj === 'object'
 }
 
 function merge (a, b) {
