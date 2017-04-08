@@ -15,10 +15,6 @@ export default class LooseMatcher extends StrictMatcher {
         this.expected = expected
     }
 
-    match (actual, comparator) {
-        return this.check(actual, comparator)
-    }
-
     _getActual (actual, expected) {
         return pickMatching(actual, expected)
     }
