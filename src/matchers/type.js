@@ -22,7 +22,7 @@ export default class TypeMatcher extends StrictMatcher {
             match = actual instanceof this.expected
         }
 
-        const expected = match ? actual : { typeof: this.expected }
+        const expected = match ? actual : { '[typeof]': this.expected }
 
         return {
             match: match,

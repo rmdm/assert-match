@@ -31,7 +31,7 @@ describe('type matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 actual: 5,
-                expected: { typeof: 'string' },
+                expected: { '[typeof]': 'string' },
             })
         })
 
@@ -45,7 +45,7 @@ describe('type matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 actual: { a: 5 },
-                expected: { typeof: 'number' },
+                expected: { '[typeof]': 'number' },
             })
         })
 
@@ -59,7 +59,7 @@ describe('type matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 actual: 5,
-                expected: { typeof: String },
+                expected: { '[typeof]': String },
             })
         })
 
@@ -87,7 +87,7 @@ describe('type matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 actual: new Number(5),
-                expected: { typeof: String },
+                expected: { '[typeof]': String },
             })
         })
 

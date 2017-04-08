@@ -32,7 +32,7 @@ export default class ArrayOfMatcher extends StrictMatch {
 
         const expected = actual.map(function (el) {
 
-            const result =  this.check(el, comparator)
+            const result = this.check(el, comparator)
             match = match && result.match
 
             return result.match ? result.actual : result.expected

@@ -53,7 +53,7 @@ describe('not matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 actual: 5,
-                expected: { not: 5 },
+                expected: { '[not]': 5 },
             })
         })
 
