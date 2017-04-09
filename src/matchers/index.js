@@ -11,6 +11,10 @@ import Every from './every'
 import Some from './some'
 import Regex from './regex'
 import Custom from './custom'
+import Gt from './gt'
+import Gte from './gte'
+import Lt from './lt'
+import Lte from './lte'
 
 const matchers = {}
 
@@ -37,6 +41,14 @@ matchers.some = makeMatcher(Some)
 matchers.regex = makeMatcher(Regex)
 
 matchers.custom = makeMatcher(Custom)
+
+matchers.gt = makeMatcher(Gt)
+
+matchers.gte = makeMatcher(Gte)
+
+matchers.lt = makeMatcher(Lt)
+
+matchers.lte = makeMatcher(Lte)
 
 function makeMatcher (Ctor) {
     return function wrap (expected) {
