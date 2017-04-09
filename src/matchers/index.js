@@ -9,6 +9,7 @@ import Primitive from './primitive'
 import ArrayOf from './array_of'
 import Every from './every'
 import Some from './some'
+import Regex from './regex'
 import Custom from './custom'
 
 const matchers = {}
@@ -33,13 +34,12 @@ matchers.every = makeMatcher(Every)
 
 matchers.some = makeMatcher(Some)
 
+matchers.regex = makeMatcher(Regex)
+
+matchers.custom = makeMatcher(Custom)
+
 function makeMatcher (Ctor) {
     return function wrap (expected) {
-        try {
-            return new Ctor(expected)
-        } catch (e) {
-            Error.captureStackTrace(e, wrap)
-            throw e
-        }
+        return new Ctor(expected)
     }
 }
