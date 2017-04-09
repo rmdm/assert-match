@@ -9,6 +9,7 @@ import Primitive from './primitive'
 import ArrayOf from './array_of'
 import Every from './every'
 import Some from './some'
+import Custom from './custom'
 
 const matchers = {}
 

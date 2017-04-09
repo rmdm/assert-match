@@ -75,8 +75,8 @@ describe('primitive matcher', function () {
 
             assert.deepEqual(result, {
                 match: false,
-                actual: '[unprimitivable]',
-                expected: 5,
+                actual: actual,
+                expected: { '[primitively equal to]': 5 },
             })
         })
 
@@ -94,7 +94,7 @@ describe('primitive matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 actual: 5,
-                expected: '[unprimitivable]',
+                expected: {'[primitively equal to]': expected },
             })
         })
 

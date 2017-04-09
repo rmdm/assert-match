@@ -16,18 +16,6 @@ export default class PrimitiveMatcher extends StrictMatcher {
         try {
 
             primitiveActual = toPrimitive(actual)
-
-        } catch (e) {
-
-            return {
-                match: false,
-                actual: unprimitivable(),
-                expected: this.expected,
-            }
-        }
-
-        try {
-
             primitiveExpected = toPrimitive(this.expected)
 
         } catch (e) {
@@ -35,7 +23,7 @@ export default class PrimitiveMatcher extends StrictMatcher {
             return {
                 match: false,
                 actual: actual,
-                expected: unprimitivable(),
+                expected: {'[primitively equal to]': this.expected},
             }
         }
 
