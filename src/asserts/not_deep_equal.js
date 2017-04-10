@@ -1,6 +1,6 @@
 import fallbackAssert from 'core-assert'
 import buildAssertion from '../util/build_assertion'
-import { strict } from '../matchers'
+import { strict, not } from '../matchers'
 
 export default function (baseAssert) {
 
@@ -17,5 +17,5 @@ export default function (baseAssert) {
         }
     }
 
-    return buildAssertion(baseAssert, 'notMatch', strict, comparator)
+    return buildAssertion(baseAssert, 'notDeepEqual', strict, comparator)
 }

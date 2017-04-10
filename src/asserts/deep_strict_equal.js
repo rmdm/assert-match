@@ -17,5 +17,5 @@ export default function (baseAssert) {
         }
     }
 
-    return buildAssertion(baseAssert, 'strictMatch', strict, comparator)
+    return buildAssertion(baseAssert, 'deepStrictEqual', strict, comparator)
 }

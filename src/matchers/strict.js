@@ -146,17 +146,21 @@ function applyMatchers (actual, expected, comparator) {
             result.match = result.match && v.match
 
             if (v.actual !== undefined) {
-                result.actual = Array.isArray(actual)
-                    ? []
-                    : Object.create(Object.getPrototypeOf(actual))
+                if (result.actual === undefined) {
+                    result.actual = Array.isArray(actual)
+                        ? []
+                        : Object.create(actual && Object.getPrototypeOf(actual))
+                }
 
                 result.actual[key] = v.actual
             }
 
             if (v.expected !== undefined) {
-                result.expected = Array.isArray(actual)
-                    ? []
-                    : Object.create(Object.getPrototypeOf(actual))
+                if (result.expected === undefined) {
+                    result.expected = Array.isArray(expected)
+                        ? []
+                        : Object.create(Object.getPrototypeOf(expected))
+                }
 
                 result.expected[key] = v.expected
             }

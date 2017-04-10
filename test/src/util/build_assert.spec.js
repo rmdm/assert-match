@@ -21,10 +21,6 @@ describe('build_assert utility', function () {
         assert.equal(newAssert.matchers, matchers)
     })
 
-    it('has "from" property', function () {
-        assert.equal(newAssert.from, buildAssert)
-    })
-
     it('has "AssertionError" property', function () {
         assert.equal(newAssert.AssertionError, assert.AssertionError)
     })
@@ -43,10 +39,6 @@ describe('build_assert utility', function () {
         'ok',
         'strictEqual',
         'throws',
-        'match',
-        'notMatch',
-        'strictMatch',
-        'notStrictMatch',
     ]
 
     expectedMethods.forEach(function (methodName) {

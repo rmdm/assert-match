@@ -20,38 +20,40 @@ const matchers = {}
 
 export default matchers
 
-matchers.strict = makeMatcher(Strict)
+defineMatcher(matchers, 'strict', Strict)
 
-matchers.loose = makeMatcher(Loose)
+defineMatcher(matchers, 'loose', Loose)
 
-matchers.any = makeMatcher(Any)
+defineMatcher(matchers, 'any', Any)
 
-matchers.not = makeMatcher(Not)
+defineMatcher(matchers, 'not', Not)
 
-matchers.type = makeMatcher(Type)
+defineMatcher(matchers, 'type', Type)
 
-matchers.primitive = makeMatcher(Primitive)
+defineMatcher(matchers, 'primitive', Primitive)
 
-matchers.arrayOf = makeMatcher(ArrayOf)
+defineMatcher(matchers, 'arrayOf', ArrayOf)
 
-matchers.every = makeMatcher(Every)
+defineMatcher(matchers, 'every', Every)
 
-matchers.some = makeMatcher(Some)
+defineMatcher(matchers, 'some', Some)
 
-matchers.regex = makeMatcher(Regex)
+defineMatcher(matchers, 'regex', Regex)
 
-matchers.custom = makeMatcher(Custom)
+defineMatcher(matchers, 'custom', Custom)
 
-matchers.gt = makeMatcher(Gt)
+defineMatcher(matchers, 'gt', Gt)
 
-matchers.gte = makeMatcher(Gte)
+defineMatcher(matchers, 'gte', Gte)
 
-matchers.lt = makeMatcher(Lt)
+defineMatcher(matchers, 'lt', Lt)
 
-matchers.lte = makeMatcher(Lte)
+defineMatcher(matchers, 'lte', Lte)
 
-function makeMatcher (Ctor) {
-    return function wrap (expected) {
-        return new Ctor(expected)
-    }
+function defineMatcher (matchers, name, Ctor) {
+    Object.defineProperty(matchers, name, {
+        value: function matcher (expected) {
+            return new Ctor(expected)
+        },
+    })
 }

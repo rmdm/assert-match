@@ -17,10 +17,6 @@ var methods = [
     'ok',
     'strictEqual',
     'throws',
-    'match',
-    'notMatch',
-    'strictMatch',
-    'notStrictMatch',
 ]
 
 export default function buildAssert (baseAssert) {
@@ -32,7 +28,6 @@ export default function buildAssert (baseAssert) {
     }
 
     assert.matchers = matchers
-    assert.from = buildAssert
     assert.AssertionError = baseAssert.AssertionError
 
     return assert
