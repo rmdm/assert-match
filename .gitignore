@@ -1,3 +1,4 @@
 node_modules
 coverage
 dst
+.nyc_output

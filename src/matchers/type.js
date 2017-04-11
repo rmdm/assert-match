@@ -11,7 +11,7 @@ export default class TypeMatcher extends StrictMatcher {
 
     match (actual) {
 
-        let match
+        let match = false
 
         if (typeof this.expected === 'string') {
 

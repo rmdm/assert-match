@@ -1,11 +1,26 @@
 'use strict'
 
-import assert from 'core-assert'
+import fallbackAssert from 'core-assert'
 
-export default function buildAssertion (baseAssert, name, matcher, comparator) {
+export default buildAssertion
 
-    let AssertionError = baseAssert.AssertionError ||
-            assert.AssertionError
+function buildAssertion (baseAssert, assertionName, matcher, operatorName) {
+
+    const AssertionError = baseAssert.AssertionError ||
+            fallbackAssert.AssertionError
+
+    const comparatorAssertion = typeof baseAssert[assertionName] === 'function'
+            ? baseAssert[assertionName].bind(baseAssert)
+            : fallbackAssert[assertionName].bind(fallbackAssert)
+
+    const comparator = function (actual, expected) {
+        try {
+            comparatorAssertion(actual, expected)
+            return true
+        } catch (e) {
+            return false
+        }
+    }
 
     return function assertion (actual, expected, message) {
 
@@ -16,7 +31,7 @@ export default function buildAssertion (baseAssert, name, matcher, comparator) {
             throw new AssertionError({
                 actual: result.actual,
                 expected: result.expected,
-                operator: name,
+                operator: operatorName,
                 stackStartFunction: assertion,
                 message: message,
             })

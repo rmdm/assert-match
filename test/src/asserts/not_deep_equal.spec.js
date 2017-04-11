@@ -47,10 +47,10 @@ describe('notDeepEqual assertion', function () {
         } catch (e) {
 
             assert(e instanceof assert.AssertionError)
-            assert.deepEqual(e.actual, {a: 1, c: 10})
-            assert.deepEqual(e.expected, {a: '1', c: 10})
+            assert.deepEqual(e.actual, { a: 1, c: 10 })
+            assert.deepEqual(e.expected, { '[not]': { a: '1', c: 10 }})
             assert.equal(e.operator, 'notDeepEqual')
-            assert(/ notDeepEqual /.test(e.message)) // { a: 1 } deepEqual { a: \'1\', b: 5 }
+            assert(/ notDeepEqual /.test(e.message))
         }
     })
 
@@ -92,7 +92,7 @@ describe('notDeepEqual assertion', function () {
                     b: 1,
                     c: 2,
                 },
-                d: [1, 2, 3, 4, 5],
+                d: [1, 2, 3, 4, 5, 'a'],
                 e: 'abc',
             },
             expected = {
@@ -128,8 +128,10 @@ describe('notDeepEqual assertion', function () {
                 e: 'abc',
             })
             assert.deepEqual(e.expected, {
-                d: [1, 2, 3],
-                e: 'abc',
+                '[not]': {
+                    d: [1, 2, 3],
+                    e: 'abc',
+                }
             })
             assert.equal(e.operator, 'notDeepEqual')
             assert(/ notDeepEqual /.test(e.message))

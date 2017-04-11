@@ -41,7 +41,3 @@ export default class PrimitiveMatcher extends StrictMatcher {
     }
 
 }
-
-function unprimitivable () {
-    return '[unprimitivable]'
-}

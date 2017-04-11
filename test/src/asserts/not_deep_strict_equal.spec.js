@@ -1,18 +1,18 @@
 'use strict'
 
 import assert from 'assert'
-import initDeepStrictEqual from '../../../src/asserts/deep_strict_equal'
+import initNotDeepStrictEqual from '../../../src/asserts/not_deep_strict_equal'
 import { loose, type, gt, arrayOf } from '../../../src/matchers'
 
-describe('deepStrictEqual assertion', function () {
+describe('notDeepStrictEqual assertion', function () {
 
-    let deepStrictEqual
+    let notDeepStrictEqual
 
     beforeEach(function () {
-        deepStrictEqual = initDeepStrictEqual(assert)
+        notDeepStrictEqual = initNotDeepStrictEqual(assert)
     })
 
-    it('does not throw when actual deep strict equals expected', function () {
+    it('does not throw when actual not deep equals expected', function () {
 
         const actual = {
                 a: 1,
@@ -20,37 +20,37 @@ describe('deepStrictEqual assertion', function () {
                 c: 3,
             },
             expected = {
-                a: 1,
+                a: '1',
                 b: 2,
-                c: 3,
+                c: '5',
             }
 
-        deepStrictEqual(actual, expected)
+        notDeepStrictEqual(actual, expected)
     })
 
-    it('throws when actual does not deep strict equal expected', function () {
+    it('throws when actual deep equals expected', function () {
 
         const actual = {
                 a: 1,
                 c: 10,
             },
             expected = {
-                a: '1',
+                a: 1,
                 c: 10,
             }
 
         try {
 
-            deepStrictEqual(actual, expected)
+            notDeepStrictEqual(actual, expected)
 
-            throw new Error('"deepStrictEqual" has unexpectedly not thrown.')
+            throw new Error('"notDeepStrictEqual" has unexpectedly not thrown.')
         } catch (e) {
 
             assert(e instanceof assert.AssertionError)
-            assert.deepEqual(e.actual, {a: 1, c: 10})
-            assert.deepEqual(e.expected, {a: '1', c: 10})
-            assert.equal(e.operator, 'deepStrictEqual')
-            assert(/ deepStrictEqual /.test(e.message))
+            assert.deepEqual(e.actual, { a: 1, c: 10 })
+            assert.deepEqual(e.expected, { '[not]': { a: 1, c: 10 }})
+            assert.equal(e.operator, 'notDeepStrictEqual')
+            assert(/ notDeepStrictEqual /.test(e.message))
         }
     })
 
@@ -64,24 +64,24 @@ describe('deepStrictEqual assertion', function () {
             }),
             expected = Object.create(null, {
                 a: {
-                    value: 5,
+                    value: 7,
                     enumerable: true
                 }
             })
 
-        deepStrictEqual(actual, expected)
+        notDeepStrictEqual(actual, expected)
 
     })
 
-    it('does not throw when strict equal primitives are compared', function () {
+    it('does not throw when not equal primitives are compared', function () {
 
-        deepStrictEqual(5, 5)
+        notDeepStrictEqual(5, 7)
     })
 
-    it('throws when not strict equal primitives are compared', function () {
+    it('throws when equal primitives are compared', function () {
 
         assert.throws(function () {
-            deepStrictEqual(5, '5')
+            notDeepStrictEqual(5, 5)
         })
     })
 
@@ -92,7 +92,7 @@ describe('deepStrictEqual assertion', function () {
                     b: 1,
                     c: 2,
                 },
-                d: [1, 2, 3, 4, 5],
+                d: [1, 2, 3, 4, 5, 'a'],
                 e: 'abc',
             },
             expected = {
@@ -101,49 +101,40 @@ describe('deepStrictEqual assertion', function () {
                 e: gt('ab!'),
             }
 
-        deepStrictEqual(actual, expected)
+        notDeepStrictEqual(actual, expected)
     })
 
     it('throws when actual is compared to expected with matchers', function () {
 
         const actual = {
-                a: {
-                    b: 1,
-                    c: 2,
-                },
-                d: [1, 2, 3, 'a'],
+                d: [1, 2, 3],
                 e: 'abc',
             },
             expected = {
-                a: loose({ b: 1 }),
                 d: arrayOf(type('number')),
                 e: gt('ab!'),
             }
 
         try {
 
-            deepStrictEqual(actual, expected)
+            notDeepStrictEqual(actual, expected)
 
-            throw new Error('"deepEqual" has unexpectedly not thrown.')
+            throw new Error('"notDeepStrictEqual" has unexpectedly not thrown.')
         } catch (e) {
 
             assert(e instanceof assert.AssertionError)
             assert.deepEqual(e.actual, {
-                a: {
-                    b: 1,
-                },
-                d: [1, 2, 3, 'a'],
+                d: [1, 2, 3],
                 e: 'abc',
             })
             assert.deepEqual(e.expected, {
-                a: {
-                    b: 1,
-                },
-                d: [1, 2, 3, {'[typeof]': 'number'}],
-                e: 'abc',
+                '[not]': {
+                    d: [1, 2, 3],
+                    e: 'abc',
+                }
             })
-            assert.equal(e.operator, 'deepStrictEqual')
-            assert(/ deepStrictEqual /.test(e.message))
+            assert.equal(e.operator, 'notDeepStrictEqual')
+            assert(/ notDeepStrictEqual /.test(e.message))
 
         }
     })

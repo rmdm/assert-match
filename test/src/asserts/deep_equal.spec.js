@@ -50,7 +50,7 @@ describe('deepEqual assertion', function () {
             assert.deepEqual(e.actual, {a: 1, c: 10})
             assert.deepEqual(e.expected, {a: '1', b: 5})
             assert.equal(e.operator, 'deepEqual')
-            assert(/ deepEqual /.test(e.message)) // { a: 1 } deepEqual { a: \'1\', b: 5 }
+            assert(/ deepEqual /.test(e.message))
         }
     })
 

@@ -429,6 +429,32 @@ describe('Strict matcher', function () {
             })
         })
 
+        it('compares actual with expected with deep matcher', function () {
+
+            const ten = new Strict()
+
+            sinon.stub(ten, 'match').returns({
+                match: true,
+                actual: 10,
+                expected: 10,
+            })
+
+            const actual = { a: [ 10 ] }, expected = { a: [ ten ] }
+
+            const strict = new Strict(expected)
+            comparator.returns(true)
+
+            const result = strict.check(actual, comparator)
+
+            assert(comparator.calledWithExactly({ a: [] }, { a: [] }))
+
+            assert.deepEqual(result, {
+                match: true,
+                actual: { a: [ 10 ] },
+                expected: { a: [ 10 ] },
+            })
+        })
+
     })
 
 })

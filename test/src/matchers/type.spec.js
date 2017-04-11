@@ -91,6 +91,20 @@ describe('type matcher', function () {
             })
         })
 
+        it('returns false if expected neiter string nor function', function () {
+
+            const actual = new Number(5), expected = 5
+            const type = new Type(expected)
+
+            const result = type.match(actual)
+
+            assert.deepEqual(result, {
+                match: false,
+                actual: new Number(5),
+                expected: { '[typeof]': 5 },
+            })
+        })
+
     })
 
 })
