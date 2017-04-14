@@ -4,10 +4,6 @@ import StrictMatch from './strict'
 
 export default class ArrayOfMatcher extends StrictMatch {
 
-    constructor (expected) {
-        super(expected)
-    }
-
     match (actual, comparator) {
 
         if (!Array.isArray(actual)) {

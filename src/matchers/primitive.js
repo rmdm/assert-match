@@ -5,10 +5,6 @@ import StrictMatcher from './strict'
 
 export default class PrimitiveMatcher extends StrictMatcher {
 
-    constructor (expected) {
-        super(expected)
-    }
-
     match (actual, comparator) {
 
         let primitiveActual, primitiveExpected

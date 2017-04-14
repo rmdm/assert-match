@@ -5,10 +5,6 @@ import { hasOwn } from '../util/utils'
 
 export default class CustomMatcher extends StrictMatcher {
 
-    constructor (expected) {
-        super(expected)
-    }
-
     match (actual, comparator) {
 
         if (typeof this.expected !== 'function') {

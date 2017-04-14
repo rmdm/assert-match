@@ -4,11 +4,7 @@ import StrictMatcher from './strict'
 
 export default class AnyMatcher extends StrictMatcher {
 
-    constructor (expected) {
-        super()
-    }
-
-    check (actual, comparator) {
+    check (actual) {
         return {
             match: true,
             actual: actual,

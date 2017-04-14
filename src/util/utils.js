@@ -35,5 +35,5 @@ function isStandardObject (obj) {
 }
 
 function isArguments(object) {
-  return Object.prototype.toString.call(object) === '[object Arguments]';
+    return Object.prototype.toString.call(object) === '[object Arguments]'
 }

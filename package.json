@@ -1,10 +1,11 @@
 {
   "name": "assert-match",
   "version": "0.1.1",
-  "description": "assert's matching features",
+  "description": "assert + matchers",
   "main": "dst/index.js",
   "scripts": {
-    "test": "_mocha --require babel-register --recursive test",
+    "test": "npm run lint && _mocha --require babel-register --recursive test",
+    "lint": "eslint src",
     "cover": "NODE_ENV=test nyc npm test",
     "compile": "babel src --out-dir dst",
     "check": "autochecker",
@@ -17,7 +18,8 @@
   "keywords": [
     "assert",
     "isMatch",
-    "match"
+    "match",
+    "matchers"
   ],
   "author": "rmdm",
   "license": "MIT",
@@ -33,7 +35,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.0",
     "babel-register": "^6.24.0",
-    "istanbul": "^1.1.0-alpha.1",
+    "eslint": "^3.19.0",
     "mocha": "^3.2.0",
     "nyc": "^10.2.0",
     "sinon": "^2.1.0"

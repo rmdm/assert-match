@@ -4,16 +4,10 @@ import StrictMatcher from './strict'
 import {
     hasOwn,
     isMatcher,
-    isObject,
-    isStandardObject
+    isObject
 } from '../util/utils'
 
 export default class LooseMatcher extends StrictMatcher {
-
-    constructor (expected) {
-        super()
-        this.expected = expected
-    }
 
     _getActual (actual, expected) {
         return pickMatching(actual, expected)

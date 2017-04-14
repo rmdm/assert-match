@@ -4,10 +4,6 @@ import StrictMatcher from './strict'
 
 export default class GtMatcher extends StrictMatcher {
 
-    constructor (expected) {
-        super(expected)
-    }
-
     match (actual) {
 
         const match = actual > this.expected

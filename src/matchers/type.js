@@ -1,13 +1,8 @@
 'use strict'
 
 import StrictMatcher from './strict'
-import { isObject } from '../util/utils'
 
 export default class TypeMatcher extends StrictMatcher {
-
-    constructor (expected) {
-        super(expected)
-    }
 
     match (actual) {
 
