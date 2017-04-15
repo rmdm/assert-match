@@ -90,7 +90,8 @@ enhanced with matchers support.
 Matchers
 --------
 
-A matcher is an objects used to check if a value satisfies some requirements.
+A matcher is an objects used to check if a value satisfies some requirements
+defined by the matcher.
 
 Matchers can be placed on the top level of **expected** value or on some of its
 properties.
@@ -323,29 +324,49 @@ assert.deepEqual({ a: 1 }, custom( expected => ({                       // passe
     expected: 1,
 }) ))
 assert.deepEqual({ a: 1 }, custom( expected => ({                       // throws
-    match: expected.a === 1,
+    match: expected.a !== 1,
     expected: '["a" should not be equal to 1]',
 }) ))
 ```
-<!--
-What about power-assert?
-========================
-
-The short answer is: `>:3`-->
-
-Examples
-========
 
 FAQ
 ===
 
-<!--### Why does matchers are strict by default?
+### Why enhancing assert with matchers?
 
-### Why yet another matchers library?
+There are cases when you care more not about specific values but rather about
+their shapes or features. `assert-match` provides you with a way to achieve that
+through matchers.
 
-### Why not pluginable?
+### Why yet another matchers?
 
-overhead-->
+Existing assertion libraries provide you with tonns of crazy named matchers and
+each new use case requires them (or you) to introduce completly new matcher. On
+the other hand `assert-match` provides you with succinct set of combinable
+matchers, sufficent to reproduce all the matchers of that libs in a clear way.
+
+### Why does matchers are strict by default?
+
+The more strict your tests the less probability to introduce bugs into your
+system and the more probability to detect them. However, as noted above, there
+are cases when you care more not about specific values but rather about their
+shapes or features. `assert-match` tries to consistently address these two
+points.
+
+### Why no extension API?
+
+For matchers to be combinable means that not many of them can not be expressed
+by existing ones, so this feature would not be in great demand. Additionaly,
+`custom` matcher may be used for this purpose to some extent. However, you are
+always welcomed to issues to provide your points why this or any other feature
+is required.
+
+### What about [`power-assert`](https://github.com/power-assert-js/power-assert)?
+
+[Yes, we have it `>:3`.]()
+
+Examples
+========
 
 Related projects
 ================
