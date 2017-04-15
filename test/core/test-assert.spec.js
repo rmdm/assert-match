@@ -326,7 +326,7 @@ describe('core assert tests', function () {
         assert.doesNotThrow(function() {a.ifError();});
 
         assert.throws(() => {
-        assert.doesNotThrow(makeBlock(thrower, Error), 'user message');
+        a.doesNotThrow(makeBlock(thrower, Error), 'user message');
         }, /Got unwanted exception. user message/,
         'a.doesNotThrow ignores user message');
 
@@ -424,14 +424,14 @@ describe('core assert tests', function () {
 
         // #5292
         try {
-        assert.equal(1, 2);
+        a.equal(1, 2);
         } catch (e) {
         assert.equal(e.toString().split('\n')[0], 'AssertionError: 1 == 2');
         assert.ok(e.generatedMessage, 'Message not marked as generated');
         }
 
         try {
-        assert.equal(1, 2, 'oh no');
+        a.equal(1, 2, 'oh no');
         } catch (e) {
         assert.equal(e.toString().split('\n')[0], 'AssertionError: oh no');
         assert.equal(e.generatedMessage, false,
