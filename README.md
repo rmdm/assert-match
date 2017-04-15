@@ -163,8 +163,8 @@ property does not matter.
 
 ```javascript
 assert.deepEqual(undefined, any())                                  // passes
-assert.deepEqual({ a: 1, b: 2, c: 3}, { a: 1, b: 2, c: any() })     // passes
-assert.deepEqual({ a: 1, b: 2, c: 3}, { a: 1, b: 5, c: any() })     // throws
+assert.deepEqual({ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: any() })    // passes
+assert.deepEqual({ a: 1, b: 2, c: 3 }, { a: 1, b: 5, c: any() })    // throws
 ```
 
 ### `not (expected)`
@@ -187,10 +187,10 @@ matcher. `every` matcher checks whether **actual** value matches all matchers of
 **expected**.
 
 ```javascript
-assert.deepEqual({ a: 1, b: 2 }, every([loose({ a: 1 }), loose({ b: 2 })]))    // passes
-assert.deepEqual({ a: 1, b: 2 }, every([loose({ a: 1 }), loose({ c: 3 })]))    // throws
-assert.deepEqual({ a: 1, b: 2 }, every([ { c: 3 } ]))                          // throws
-assert.deepEqual({ a: 1, b: 2 }, every(loose({ a: 1 })))                       // passes
+assert.deepEqual({ a: 1, b: 2 }, every([ loose({ a: 1 }), loose({ b: 2 }) ]))   // passes
+assert.deepEqual({ a: 1, b: 2 }, every([ loose({ a: 1 }), loose({ c: 3 }) ]))   // throws
+assert.deepEqual({ a: 1, b: 2 }, every([ { c: 3 } ]))                           // throws
+assert.deepEqual({ a: 1, b: 2 }, every(loose({ a: 1 })))                        // passes
 ```
 
 ### `some (expected)`
@@ -201,10 +201,10 @@ matcher. `every` matcher checks whether **actual** value matches at least one
 matcher of **expected**.
 
 ```javascript
-assert.deepEqual({ a: 1, b: 2 }, some([loose({ a: 1 }), loose({ b: 2 })]))    // passes
-assert.deepEqual({ a: 1, b: 2 }, some([loose({ a: 1 }), loose({ c: 3 })]))    // passes
-assert.deepEqual({ a: 1, b: 2 }, some([ { c: 3 } ]))                          // throws
-assert.deepEqual({ a: 1, b: 2 }, some(loose({ a: 1 })))                       // passes
+assert.deepEqual({ a: 1, b: 2 }, some([ loose({ a: 1 }), loose({ b: 2 }) ]))    // passes
+assert.deepEqual({ a: 1, b: 2 }, some([ loose({ a: 1 }), loose({ c: 3 }) ]))    // passes
+assert.deepEqual({ a: 1, b: 2 }, some([ { c: 3 } ]))                            // throws
+assert.deepEqual({ a: 1, b: 2 }, some(loose({ a: 1 })))                         // passes
 ```
 
 ### `arrayOf (expected)`
@@ -214,9 +214,9 @@ wraps **expected** in `strict` matcher. Checks each element of the array against
 **expected** matcher.
 
 ```javascript
-assert.deepEqual([1, 1, 1], arrayOf(1))    // passes
-assert.deepEqual([1, 1, 'a'], arrayOf(1))  // throws
-assert.deepEqual(1, arrayOf(1))            // throws
+assert.deepEqual([ 1, 1, 1 ], arrayOf(1))   // passes
+assert.deepEqual([ 1, 1, 'a' ], arrayOf(1)) // throws
+assert.deepEqual(1, arrayOf(1))             // throws
 ```
 
 ### `type (expected)`
@@ -260,12 +260,12 @@ assert.deepEqual('123', regex('^\D+$'))            // throws
 Checks if **actual** greater than **expected**.
 
 ```javascript
-assert.deepEqual('b', gt('a'))                          // passes
-assert.deepEqual('a', gt('b'))                          // throws
-assert.deepEqual(1, gt(0))                              // passes
-assert.deepEqual(0, gt(0))                              // throws
-assert.deepEqual([1, 2, 3], loose({ length: gt(1) }))   // passes
-assert.deepEqual([1], loose({ length: gt(1) }))         // throws
+assert.deepEqual('b', gt('a'))                              // passes
+assert.deepEqual('a', gt('b'))                              // throws
+assert.deepEqual(1, gt(0))                                  // passes
+assert.deepEqual(0, gt(0))                                  // throws
+assert.deepEqual([ 1, 2, 3 ], loose({ length: gt(1) }))     // passes
+assert.deepEqual([ 1 ], loose({ length: gt(1) }))           // throws
 ```
 
 ### `gte (expected)`
@@ -273,12 +273,12 @@ assert.deepEqual([1], loose({ length: gt(1) }))         // throws
 Checks if **actual** greater than or equal to **expected**.
 
 ```javascript
-assert.deepEqual('b', gte('a'))                         // passes
-assert.deepEqual('a', gte('b'))                         // throws
-assert.deepEqual(1, gte(0))                             // passes
-assert.deepEqual(0, gte(0))                             // passes
-assert.deepEqual([1, 2, 3], loose({ length: gte(1) }))  // passes
-assert.deepEqual([1], loose({ length: gte(1) }))        // passes
+assert.deepEqual('b', gte('a'))                             // passes
+assert.deepEqual('a', gte('b'))                             // throws
+assert.deepEqual(1, gte(0))                                 // passes
+assert.deepEqual(0, gte(0))                                 // passes
+assert.deepEqual([ 1, 2, 3 ], loose({ length: gte(1) }))    // passes
+assert.deepEqual([ 1 ], loose({ length: gte(1) }))          // passes
 ```
 
 ### `lt (expected)`
@@ -286,12 +286,12 @@ assert.deepEqual([1], loose({ length: gte(1) }))        // passes
 Checks if **actual** less than **expected**.
 
 ```javascript
-assert.deepEqual('a', lt('b'))                          // passes
-assert.deepEqual('b', lt('a'))                          // throws
-assert.deepEqual(0, lt(1))                              // passes
-assert.deepEqual(0, lt(0))                              // throws
-assert.deepEqual([1, 2, 3], loose({ length: lt(1) }))   // throws
-assert.deepEqual([1], loose({ length: lt(1) }))         // throws
+assert.deepEqual('a', lt('b'))                              // passes
+assert.deepEqual('b', lt('a'))                              // throws
+assert.deepEqual(0, lt(1))                                  // passes
+assert.deepEqual(0, lt(0))                                  // throws
+assert.deepEqual([ 1, 2, 3 ], loose({ length: lt(1) }))     // throws
+assert.deepEqual([ 1 ], loose({ length: lt(1) }))           // throws
 ```
 
 ### `lte (expected)`
@@ -299,12 +299,12 @@ assert.deepEqual([1], loose({ length: lt(1) }))         // throws
 Checks if **actual** less than or equal to **expected**.
 
 ```javascript
-assert.deepEqual('a', lte('b'))                         // passes
-assert.deepEqual('b', lte('a'))                         // throws
-assert.deepEqual(0, lte(1))                             // passes
-assert.deepEqual(0, lte(0))                             // passes
-assert.deepEqual([1, 2, 3], loose({ length: lte(1) }))  // throws
-assert.deepEqual([1], loose({ length: lte(1) }))        // passes
+assert.deepEqual('a', lte('b'))                             // passes
+assert.deepEqual('b', lte('a'))                             // throws
+assert.deepEqual(0, lte(1))                                 // passes
+assert.deepEqual(0, lte(0))                                 // passes
+assert.deepEqual([ 1, 2, 3 ], loose({ length: lte(1) }))    // throws
+assert.deepEqual([ 1 ], loose({ length: lte(1) }))          // passes
 ```
 
 ### `custom (expectedFn)`
@@ -316,16 +316,16 @@ the `match` and `expected` fields. boolean `match` property says whether check
 passed and `expected` is used in error reporting.
 
 ```javascript
-assert.deepEqual({a: 1}, custom(expected => expected.a === 1))     // passes
-assert.deepEqual({a: 1}, custom(expected => expected.a !== 1))     // throws
-assert.deepEqual({a: 1}, custom(expected => ({
+assert.deepEqual({ a: 1 }, custom( expected => expected.a === 1) )      // passes
+assert.deepEqual({ a: 1 }, custom( expected => expected.a !== 1) )      // throws
+assert.deepEqual({ a: 1 }, custom( expected => ({                       // passes
     match: expected.a === 1,
     expected: 1,
-})))     // passes
-assert.deepEqual({a: 1}, custom(expected => ({
+}) ))
+assert.deepEqual({ a: 1 }, custom( expected => ({                       // throws
     match: expected.a === 1,
     expected: '["a" should not be equal to 1]',
-})))     // throws
+}) ))
 ```
 <!--
 What about power-assert?
