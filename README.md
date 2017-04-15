@@ -131,7 +131,7 @@ to an assertion.
 
 Returns an insatnce of the root matchers class. All other matchers inherit from
 that class. It checks whether two values are equal in depth. Actual comparison
-opeartor (== or ===) for primitives depends on assertion in which this matcher
+operator (== or ===) for primitives depends on assertion in which this matcher
 is used (for example, == is used for `deepEqual` whereas === is used for
 `deepStrictEqual`). If **expected** contains a matcher somewhere on it, then
 check for corresponding **actual** value is passed to that matcher.

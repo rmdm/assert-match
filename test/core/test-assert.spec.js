@@ -78,7 +78,7 @@ describe('core assert tests', function () {
         assert.throws(makeBlock(a.deepEqual, /a/igm, /a/im));
 
         {
-        const re1 = /a/;
+        var re1 = /a/;
         re1.lastIndex = 3;
         assert.throws(makeBlock(a.deepEqual, re1, /a/));
         }
@@ -179,7 +179,7 @@ describe('core assert tests', function () {
         assert.throws(makeBlock(a.deepStrictEqual, /a/igm, /a/im));
 
         {
-        const re1 = /a/;
+        var re1 = /a/;
         re1.lastIndex = 3;
         assert.throws(makeBlock(a.deepStrictEqual, re1, /a/));
         }
@@ -453,24 +453,24 @@ describe('core assert tests', function () {
         assert.ok(threw);
         }
 
-        testBlockTypeError(assert.throws, 'string');
-        testBlockTypeError(assert.doesNotThrow, 'string');
-        testBlockTypeError(assert.throws, 1);
-        testBlockTypeError(assert.doesNotThrow, 1);
-        testBlockTypeError(assert.throws, true);
-        testBlockTypeError(assert.doesNotThrow, true);
-        testBlockTypeError(assert.throws, false);
-        testBlockTypeError(assert.doesNotThrow, false);
-        testBlockTypeError(assert.throws, []);
-        testBlockTypeError(assert.doesNotThrow, []);
-        testBlockTypeError(assert.throws, {});
-        testBlockTypeError(assert.doesNotThrow, {});
-        testBlockTypeError(assert.throws, /foo/);
-        testBlockTypeError(assert.doesNotThrow, /foo/);
-        testBlockTypeError(assert.throws, null);
-        testBlockTypeError(assert.doesNotThrow, null);
-        testBlockTypeError(assert.throws, undefined);
-        testBlockTypeError(assert.doesNotThrow, undefined);
+        testBlockTypeError(a.throws, 'string');
+        testBlockTypeError(a.doesNotThrow, 'string');
+        testBlockTypeError(a.throws, 1);
+        testBlockTypeError(a.doesNotThrow, 1);
+        testBlockTypeError(a.throws, true);
+        testBlockTypeError(a.doesNotThrow, true);
+        testBlockTypeError(a.throws, false);
+        testBlockTypeError(a.doesNotThrow, false);
+        testBlockTypeError(a.throws, []);
+        testBlockTypeError(a.doesNotThrow, []);
+        testBlockTypeError(a.throws, {});
+        testBlockTypeError(a.doesNotThrow, {});
+        testBlockTypeError(a.throws, /foo/);
+        testBlockTypeError(a.doesNotThrow, /foo/);
+        testBlockTypeError(a.throws, null);
+        testBlockTypeError(a.doesNotThrow, null);
+        testBlockTypeError(a.throws, undefined);
+        testBlockTypeError(a.doesNotThrow, undefined);
 
         // https://github.com/nodejs/node/issues/3275
         assert.throws(() => { throw 'error'; }, (err) => err === 'error');
