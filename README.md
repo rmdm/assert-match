@@ -70,7 +70,7 @@ assert.deepEqual(actual, expected)
 Assertions
 ----------
 
-`assert-match` enhances standard `assert`'s assertions of `deep`-family:
+`assert-match` enhances standard `assert`'s `deep`-family assertions:
 
 - ```assert.deepEqual (actual, expected, [message])```
 - ```assert.deepStrictEqual (actual, expected, [message])```
@@ -139,15 +139,30 @@ example `strict(aMatcher(expected))` returns matcher equivalent to
 `aMatcher(expected)`. Actually, `deepEqual` and `deepStrictEqual` assertions
 wrap its **expected** argument in `strict` matcher implicitly.
 
+```javascript
+assert.deepEqual({ a: 1, b: 2 }, strict({ a: 1, b: 2 }))   // passes
+assert.deepEqual({ a: 1, b: 2 }, strict({ a: 1 }))         // throws
+assert.deepEqual({ a: 1 }, strict({ a: 1, b: 2 }))         // throws
+```
+
 ### `loose (expected)`
 
 Similar to `strict` matcher but requires only subset of **actual** properties to
 be equal in depth to those of **expected**.
 
+```javascript
+assert.deepEqual({ a: 1, b: 2 }, loose({ a: 1 }))  // passes
+assert.deepEqual({ a: 1 }, loose({ a: 1, b: 2 }))  // throws
+```
+
 ### `any (expected)`
 
 Matches anything. Can be used if value or existance of a specific **actual**
 property does not matter.
+
+```javascript
+assert.deepEqual(undefined, any()) // passes
+```
 
 ### `not (expected)`
 
@@ -155,19 +170,39 @@ It implicitly wraps **expected** in `strict` matcher, matches **actual** value
 against it and inverts result. `notDeepEqual` and `notDeepStrictEqual`
 assertions wrap its **expected** argument in `not` matcher implicitly.
 
+```javascript
+assert.deepEqual({ a: 1, b: 2 }, not({ a: 1, b: 2 }))  // throws
+assert.deepEqual({ a: 1, b: 2 }, not({ a: 1 }))        // passes
+assert.deepEqual({ a: 1 }, not({ a: 1, b: 2 }))        // passes
+```
+
 ### `every (expected)`
 
 **expected** should be an array. If it is not, than it is treated as one-element
-array. Each element of the array is wrapped implicitly in `strict` matcher.
-`every` matcher checks whether **actual** value matches all matchers of
+array. Each element of **expected** array is wrapped implicitly in `strict`
+matcher. `every` matcher checks whether **actual** value matches all matchers of
 **expected**.
+
+```javascript
+assert.deepEqual({ a: 1, b: 2 }, every([loose({ a: 1 }), loose({ b: 2 })]))    // passes
+assert.deepEqual({ a: 1, b: 2 }, every([loose({ a: 1 }), loose({ c: 3 })]))    // throws
+assert.deepEqual({ a: 1, b: 2 }, every([ { c: 3 } ]))                          // throws
+assert.deepEqual({ a: 1, b: 2 }, every(loose({ a: 1 })))                       // passes
+```
 
 ### `some (expected)`
 
 **expected** should be an array. If it is not, than it is treated as one-element
-array. Each element of the array is wrapped implicitly in `strict` matcher.
-`every` matcher checks whether **actual** value matches at least one matcher of
-**expected**.
+array. Each element of **expected** array is wrapped implicitly in `strict`
+matcher. `every` matcher checks whether **actual** value matches at least one
+matcher of **expected**.
+
+```javascript
+assert.deepEqual({ a: 1, b: 2 }, some([loose({ a: 1 }), loose({ b: 2 })]))    // passes
+assert.deepEqual({ a: 1, b: 2 }, some([loose({ a: 1 }), loose({ c: 3 })]))    // passes
+assert.deepEqual({ a: 1, b: 2 }, some([ { c: 3 } ]))                          // throws
+assert.deepEqual({ a: 1, b: 2 }, some(loose({ a: 1 })))                       // passes
+```
 
 ### `arrayOf (expected)`
 
@@ -175,35 +210,99 @@ Expects **actual** value to be an array, check fails if it is not. Implicitly
 wraps **expected** in `strict` matcher. Checks each element of the array against
 **expected** matcher.
 
+```javascript
+assert.deepEqual([1, 1, 1], arrayOf(1))    // passes
+assert.deepEqual([1, 1, 'a'], arrayOf(1))  // throws
+assert.deepEqual(1, arrayOf(1))            // throws
+```
+
 ### `type (expected)`
 
 if **expected** is a string than **actual** is checked to be a primitive of that
 type. If **expected** is a constructor than **actual** is checked to be an
 instance of that type.
 
+```javascript
+assert.deepEqual(5, type('number'))            // passes
+assert.deepEqual([ 1, 2, 3 ], type(Array))     // passes
+assert.deepEqual(5, type('string'))            // throws
+assert.deepEqual({ a: 1 }, type({ a: 1 }))     // throws
+```
+
 ### `primitive (expected)`
 
 **actual** and **expected** both converted to primitive and compared.
+
+```javascript
+assert.deepEqual({}, primitive('[object Object]'))             // passes
+assert.deepEqual(String('abc'), primitive('abc'))              // passes
+assert.deepEqual({ toString: () => 'abc' }, primitive('abc'))  // passes
+assert.deepEqual(1, primitive(1))                              // passes
+assert.deepEqual(10, primitive(1))                             // throws
+```
 
 ### `regex (expected)`
 
 **expected** is converted to a RegExp and **actual** is tested against it.
 
+```javascript
+assert.deepEqual('abc', regex('^a'))               // passes
+assert.deepEqual('[object Object]', regex({}))     // passes
+assert.deepEqual('123', regex(/^\d+$/))            // passes
+assert.deepEqual('123', regex('^\D+$'))            // throws
+```
+
 ### `gt (expected)`
 
 Checks if **actual** greater than **expected**.
+
+```javascript
+assert.deepEqual([1, 2, 3], loose({ length: gt(1) }))   // passes
+assert.deepEqual([1], loose({ length: gt(1) }))         // throws
+assert.deepEqual('b', gt('a'))                          // passes
+assert.deepEqual('a', gt('b'))                          // throws
+assert.deepEqual(1, gt(0))                              // passes
+assert.deepEqual(0, gt(0))                              // throws
+```
 
 ### `gte (expected)`
 
 Checks if **actual** greater than or equal to **expected**.
 
+```javascript
+assert.deepEqual([1, 2, 3], loose({ length: gte(1) }))  // passes
+assert.deepEqual([1], loose({ length: gte(1) }))        // passes
+assert.deepEqual('b', gte('a'))                         // passes
+assert.deepEqual('a', gte('b'))                         // throws
+assert.deepEqual(1, gte(0))                             // passes
+assert.deepEqual(0, gte(0))                             // passes
+```
+
 ### `lt (expected)`
 
 Checks if **actual** less than **expected**.
 
+```javascript
+assert.deepEqual([1, 2, 3], loose({ length: lt(1) }))   // throws
+assert.deepEqual([1], loose({ length: lt(1) }))         // throws
+assert.deepEqual('a', lt('b'))                          // passes
+assert.deepEqual('b', lt('a'))                          // throws
+assert.deepEqual(0, lt(1))                              // passes
+assert.deepEqual(0, lt(0))                              // throws
+```
+
 ### `lte (expected)`
 
 Checks if **actual** less than or equal to **expected**.
+
+```javascript
+assert.deepEqual([1, 2, 3], loose({ length: lte(1) }))  // throws
+assert.deepEqual([1], loose({ length: lte(1) }))        // passes
+assert.deepEqual('a', lte('b'))                         // passes
+assert.deepEqual('b', lte('a'))                         // throws
+assert.deepEqual(0, lte(1))                             // passes
+assert.deepEqual(0, lte(0))                             // passes
+```
 
 ### `custom (expectedFn)`
 
@@ -212,6 +311,11 @@ matcher. An **actual** value is passed to **expectedFn** to check.
 **expectedFn** should return either boolean result or an object with
 the `match` and `expected` fields. boolean `match` property says whether check
 passed and `expected` is used in error reporting.
+
+```javascript
+assert.deepEqual({a: 1}, custom(expected => expected.a === 1))     // passes
+assert.deepEqual({a: 1}, custom(expected => expected.a !== 1))     // throws
+```
 <!--
 What about power-assert?
 ========================

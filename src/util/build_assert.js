@@ -44,7 +44,14 @@ function makeAssertion (asserts, baseAssert, methodName) {
         assertion = baseAssert[methodName].bind(baseAssert)
     }
 
-    return function () {
-        return assertion.apply(null, arguments)
+    return function assertionProxy () {
+        try {
+            return assertion.apply(null, arguments)
+        } catch (e) {
+            if (typeof Error.captureStackTrace === 'function') {
+                Error.captureStackTrace(e, assertionProxy)
+            }
+            throw e
+        }
     }
 }

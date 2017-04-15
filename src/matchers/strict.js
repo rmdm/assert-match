@@ -175,13 +175,15 @@ function merge (a, b) {
     // it is supposed that if both parts are not == to undef than they should be
     // objects
 
-    if (a === undefined) {
+    if (a == undefined) {
         return b
     }
 
-    if (b === undefined) {
+    if (b == undefined) {
         return a
     }
 
-    return _merge({}, a, b)
+    const base = Array.isArray(a) ? [] : {}
+
+    return _merge(base, a, b)
 }
