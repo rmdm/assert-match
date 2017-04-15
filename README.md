@@ -358,8 +358,8 @@ points.
 For matchers to be combinable means that not many of them can not be expressed
 by existing ones, so this feature would not be in great demand. Additionaly,
 `custom` matcher may be used for this purpose to some extent. However, you are
-always welcomed to issues to provide your points why this or any other feature
-is required.
+always welcome to issues to provide your points why this or any other feature is
+required.
 
 ### What about [`power-assert`](https://github.com/power-assert-js/power-assert)?
 
