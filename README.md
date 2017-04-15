@@ -120,7 +120,7 @@ with error details.
 - [gte (expected)](#gte-expected)
 - [lt (expected)](#lt-expected)
 - [lte (expected)](#lte-expected)
-- [custom (expectedFn)](#custom-expectedFn)
+- [custom (expectedFn)](#custom-expectedfn)
 
 In all of the following matchers descriptions **actual** refers to **actual**
 value or its property, corresponding to the matcher in **expected**, both passed
@@ -151,8 +151,9 @@ Similar to `strict` matcher but requires only subset of **actual** properties to
 be equal in depth to those of **expected**.
 
 ```javascript
-assert.deepEqual({ a: 1, b: 2 }, loose({ a: 1 }))  // passes
-assert.deepEqual({ a: 1 }, loose({ a: 1, b: 2 }))  // throws
+assert.deepEqual({ a: 1, b: 2 }, loose({ a: 1, b: 2 }))     // passes
+assert.deepEqual({ a: 1, b: 2 }, loose({ a: 1 }))           // passes
+assert.deepEqual({ a: 1 }, loose({ a: 1, b: 2 }))           // throws
 ```
 
 ### `any (expected)`
@@ -161,7 +162,9 @@ Matches anything. Can be used if value or existance of a specific **actual**
 property does not matter.
 
 ```javascript
-assert.deepEqual(undefined, any()) // passes
+assert.deepEqual(undefined, any())                                  // passes
+assert.deepEqual({ a: 1, b: 2, c: 3}, { a: 1, b: 2, c: any() })     // passes
+assert.deepEqual({ a: 1, b: 2, c: 3}, { a: 1, b: 5, c: any() })     // throws
 ```
 
 ### `not (expected)`
@@ -235,7 +238,7 @@ assert.deepEqual({ a: 1 }, type({ a: 1 }))     // throws
 
 ```javascript
 assert.deepEqual({}, primitive('[object Object]'))             // passes
-assert.deepEqual(String('abc'), primitive('abc'))              // passes
+assert.deepEqual(new String('abc'), primitive('abc'))          // passes
 assert.deepEqual({ toString: () => 'abc' }, primitive('abc'))  // passes
 assert.deepEqual(1, primitive(1))                              // passes
 assert.deepEqual(10, primitive(1))                             // throws
@@ -257,12 +260,12 @@ assert.deepEqual('123', regex('^\D+$'))            // throws
 Checks if **actual** greater than **expected**.
 
 ```javascript
-assert.deepEqual([1, 2, 3], loose({ length: gt(1) }))   // passes
-assert.deepEqual([1], loose({ length: gt(1) }))         // throws
 assert.deepEqual('b', gt('a'))                          // passes
 assert.deepEqual('a', gt('b'))                          // throws
 assert.deepEqual(1, gt(0))                              // passes
 assert.deepEqual(0, gt(0))                              // throws
+assert.deepEqual([1, 2, 3], loose({ length: gt(1) }))   // passes
+assert.deepEqual([1], loose({ length: gt(1) }))         // throws
 ```
 
 ### `gte (expected)`
@@ -270,12 +273,12 @@ assert.deepEqual(0, gt(0))                              // throws
 Checks if **actual** greater than or equal to **expected**.
 
 ```javascript
-assert.deepEqual([1, 2, 3], loose({ length: gte(1) }))  // passes
-assert.deepEqual([1], loose({ length: gte(1) }))        // passes
 assert.deepEqual('b', gte('a'))                         // passes
 assert.deepEqual('a', gte('b'))                         // throws
 assert.deepEqual(1, gte(0))                             // passes
 assert.deepEqual(0, gte(0))                             // passes
+assert.deepEqual([1, 2, 3], loose({ length: gte(1) }))  // passes
+assert.deepEqual([1], loose({ length: gte(1) }))        // passes
 ```
 
 ### `lt (expected)`
@@ -283,12 +286,12 @@ assert.deepEqual(0, gte(0))                             // passes
 Checks if **actual** less than **expected**.
 
 ```javascript
-assert.deepEqual([1, 2, 3], loose({ length: lt(1) }))   // throws
-assert.deepEqual([1], loose({ length: lt(1) }))         // throws
 assert.deepEqual('a', lt('b'))                          // passes
 assert.deepEqual('b', lt('a'))                          // throws
 assert.deepEqual(0, lt(1))                              // passes
 assert.deepEqual(0, lt(0))                              // throws
+assert.deepEqual([1, 2, 3], loose({ length: lt(1) }))   // throws
+assert.deepEqual([1], loose({ length: lt(1) }))         // throws
 ```
 
 ### `lte (expected)`
@@ -296,12 +299,12 @@ assert.deepEqual(0, lt(0))                              // throws
 Checks if **actual** less than or equal to **expected**.
 
 ```javascript
-assert.deepEqual([1, 2, 3], loose({ length: lte(1) }))  // throws
-assert.deepEqual([1], loose({ length: lte(1) }))        // passes
 assert.deepEqual('a', lte('b'))                         // passes
 assert.deepEqual('b', lte('a'))                         // throws
 assert.deepEqual(0, lte(1))                             // passes
 assert.deepEqual(0, lte(0))                             // passes
+assert.deepEqual([1, 2, 3], loose({ length: lte(1) }))  // throws
+assert.deepEqual([1], loose({ length: lte(1) }))        // passes
 ```
 
 ### `custom (expectedFn)`
@@ -315,6 +318,14 @@ passed and `expected` is used in error reporting.
 ```javascript
 assert.deepEqual({a: 1}, custom(expected => expected.a === 1))     // passes
 assert.deepEqual({a: 1}, custom(expected => expected.a !== 1))     // throws
+assert.deepEqual({a: 1}, custom(expected => ({
+    match: expected.a === 1,
+    expected: 1,
+})))     // passes
+assert.deepEqual({a: 1}, custom(expected => ({
+    match: expected.a === 1,
+    expected: '["a" should not be equal to 1]',
+})))     // throws
 ```
 <!--
 What about power-assert?

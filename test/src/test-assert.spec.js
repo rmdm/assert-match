@@ -48,11 +48,14 @@ describe('random tests', function () {
             assert.throws(function () { assert.deepEqual({ a: 1 }, strict({ a: 1, b: 2 })) })
 
 
+            assert.deepEqual({ a: 1, b: 2 }, loose({ a: 1, b: 2 }))
             assert.deepEqual({ a: 1, b: 2 }, loose({ a: 1 }))
             assert.throws(function () { assert.deepEqual({ a: 1 }, loose({ a: 1, b: 2 })) })
 
 
             assert.deepEqual(undefined, any())
+            assert.deepEqual({ a: 1, b: 2, c: 3}, { a: 1, b: 2, c: any() })
+            assert.throws(function () { assert.deepEqual({ a: 1, b: 2, c: 3}, { a: 1, b: 5, c: any() }) })
 
 
             assert.throws(function () { assert.deepEqual({ a: 1, b: 2 }, not({ a: 1, b: 2 })) })
@@ -84,7 +87,7 @@ describe('random tests', function () {
 
 
             assert.deepEqual({}, primitive('[object Object]'))
-            assert.deepEqual(String('abc'), primitive('abc'))
+            assert.deepEqual(new String('abc'), primitive('abc'))
             assert.deepEqual({ toString: () => 'abc' }, primitive('abc'))
             assert.deepEqual(1, primitive(1))
             assert.throws(function () { assert.deepEqual(10, primitive(1)) })
@@ -96,40 +99,50 @@ describe('random tests', function () {
             assert.throws(function () { assert.deepEqual('123', regex('^\D+$')) })
 
 
-            assert.deepEqual([1, 2, 3], loose({ length: gt(1) }))
-            assert.throws(function () { assert.deepEqual([1], loose({ length: gt(1) })) })
             assert.deepEqual('b', gt('a'))
             assert.throws(function () { assert.deepEqual('a', gt('b')) })
             assert.deepEqual(1, gt(0))
             assert.throws(function () { assert.deepEqual(0, gt(0)) })
+            assert.deepEqual([1, 2, 3], loose({ length: gt(1) }))
+            assert.throws(function () { assert.deepEqual([1], loose({ length: gt(1) })) })
 
 
-            assert.deepEqual([1, 2, 3], loose({ length: gte(1) }))
-            assert.deepEqual([1], loose({ length: gte(1) }))
             assert.deepEqual('b', gte('a'))
             assert.throws(function () { assert.deepEqual('a', gte('b')) })
             assert.deepEqual(1, gte(0))
             assert.deepEqual(0, gte(0))
+            assert.deepEqual([1, 2, 3], loose({ length: gte(1) }))
+            assert.deepEqual([1], loose({ length: gte(1) }))
 
 
-            assert.throws(function () { assert.deepEqual([1, 2, 3], loose({ length: lt(1) })) })
-            assert.throws(function () { assert.deepEqual([1], loose({ length: lt(1) })) })
             assert.deepEqual('a', lt('b'))
             assert.throws(function () { assert.deepEqual('b', lt('a')) })
             assert.deepEqual(0, lt(1))
             assert.throws(function () { assert.deepEqual(0, lt(0)) })
+            assert.throws(function () { assert.deepEqual([1, 2, 3], loose({ length: lt(1) })) })
+            assert.throws(function () { assert.deepEqual([1], loose({ length: lt(1) })) })
 
 
-            assert.throws(function () { assert.deepEqual([1, 2, 3], loose({ length: lte(1) })) })
-            assert.deepEqual([1], loose({ length: lte(1) }))
             assert.deepEqual('a', lte('b'))
             assert.throws(function () { assert.deepEqual('b', lte('a')) })
             assert.deepEqual(0, lte(1))
             assert.deepEqual(0, lte(0))
+            assert.throws(function () { assert.deepEqual([1, 2, 3], loose({ length: lte(1) })) })
+            assert.deepEqual([1], loose({ length: lte(1) }))
 
 
             assert.deepEqual({a: 1}, custom(expected => expected.a === 1))
             assert.throws(function () { assert.deepEqual({a: 1}, custom(expected => expected.a !== 1)) })
+            assert.deepEqual({a: 1}, custom(expected => ({
+                match: expected.a === 1,
+                expected: 1,
+            })))
+            assert.throws(function () {
+                assert.deepEqual({a: 1}, custom(expected => ({
+                    match: expected.a !== 1,
+                    expected: '["a" should not be equal to 1]',
+                })))
+            })
 
         })
     })
