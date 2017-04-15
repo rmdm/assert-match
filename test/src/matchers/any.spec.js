@@ -31,7 +31,7 @@ describe('any matcher', function () {
 
         valuesToCheck.forEach(function (value) {
 
-            it(`returns true for ${String(value)}`, function () {
+            it(`returns true for ${stringify(value)}`, function () {
 
                 const any = new Any(value)
 
@@ -48,3 +48,12 @@ describe('any matcher', function () {
     })
 
 })
+
+function stringify (value) {
+
+    if (typeof value === 'symbol') {
+        return value.toString()
+    }
+
+    return String(value)
+}
