@@ -4,7 +4,7 @@
   "description": "assert + matchers",
   "main": "dst/index.js",
   "scripts": {
-    "test": "npm run lint && _mocha --require babel-register --recursive test",
+    "test": "_mocha --require babel-register --recursive test",
     "lint": "eslint src",
     "cover": "NODE_ENV=test nyc npm test",
     "compile": "babel src --out-dir dst",
