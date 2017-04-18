@@ -2,7 +2,7 @@
 
 import assert from 'assert'
 import Custom from '../../../src/matchers/custom'
-import { type } from '../../../src/matchers'
+import { type, arrayOf } from '../../../src/matchers'
 
 describe('custom matcher', function () {
 
@@ -152,6 +152,50 @@ describe('custom matcher', function () {
                 match: false,
                 actual: { a: 5, b: 10 },
                 expected: { '[custom]': { '[typeof]': 'string' } },
+            })
+        })
+
+        it('returns true if direct match of inner matcher returns true', function () {
+
+            const actual = [ 1, 1, 1 ]
+            const arrayOfOnes = arrayOf(1)
+            const expected = arrayOfOnes.match.bind(arrayOfOnes)
+
+            // OR
+            // const expected = (actual, comparator) =>
+            //        arrayOf(1).match(actual, comparator)
+
+            const custom = new Custom(expected)
+
+            const comparator = (actual, expected) => actual == expected
+            const result = custom.match(actual, comparator)
+
+            assert.deepEqual(result, {
+                match: true,
+                actual: [ 1, 1, 1 ],
+                expected: [ 1, 1, 1 ],
+            })
+        })
+
+        it('returns false if direct match of inner matcher returns false', function () {
+
+            const actual = [ 1, 1, 'a' ]
+            const arrayOfOnes = arrayOf(1)
+            const expected = arrayOfOnes.match.bind(arrayOfOnes)
+
+            // OR
+            // const expected = (actual, comparator) =>
+            //        arrayOf(1).match(actual, comparator)
+
+            const custom = new Custom(expected)
+
+            const comparator = (actual, expected) => actual == expected
+            const result = custom.match(actual, comparator)
+
+            assert.deepEqual(result, {
+                match: false,
+                actual: [ 1, 1, 'a' ],
+                expected: { '[custom]': [ 1, 1, 1 ] },
             })
         })
 

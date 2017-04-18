@@ -11,7 +11,7 @@ export default class CustomMatcher extends StrictMatcher {
             return new StrictMatcher(this.expected).match(actual, comparator)
         }
 
-        const result = this.expected(actual)
+        const result = this.expected(actual, comparator)
 
         if (!result) {
             return {

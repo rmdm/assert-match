@@ -138,17 +138,26 @@ describe('random tests', function () {
             assert.deepEqual([1], loose({ length: lte(1) }))
 
 
-            assert.deepEqual({a: 1}, custom(expected => expected.a === 1))
-            assert.throws(function () { assert.deepEqual({a: 1}, custom(expected => expected.a !== 1)) })
-            assert.deepEqual({a: 1}, custom(expected => ({
-                match: expected.a === 1,
-                expected: 1,
-            })))
+
+            assert.deepEqual({ a: 1 }, custom( actual => actual.a === 1) )
+            assert.throws(function () { assert.deepEqual({ a: 1 }, custom( actual => actual.a !== 1) ) })
+            assert.deepEqual({ a: 1 }, custom( actual => ({
+                match: actual.a === 1,
+                actual: 1,
+            }) ))
             assert.throws(function () {
-                assert.deepEqual({a: 1}, custom(expected => ({
-                    match: expected.a !== 1,
-                    expected: '["a" should not be equal to 1]',
-                })))
+                assert.deepEqual({ a: 1 }, custom( actual => ({
+                    match: actual.a !== 1,
+                    actual: '["a" should not be equal to 1]',
+                }) ))
+            })
+            assert.deepEqual([1, 1, 1], custom(
+                (actual, comparator) => arrayOf(gt(0)).match(actual, comparator)
+            ))
+            assert.throws(function () {
+                assert.deepEqual([1, 1, 'a'], custom(
+                    (actual, comparator) => arrayOf(1).match(actual, comparator)
+                ))
             })
 
         })

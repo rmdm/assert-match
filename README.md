@@ -328,19 +328,28 @@ If **expectedFn** is not a function than this matcher fallbacks to `strict`
 matcher. An **actual** value is passed to **expectedFn** to check.
 **expectedFn** should return either boolean result or an object with
 the `match` and `expected` fields. boolean `match` property says whether check
-passed and `expected` is used in error reporting.
+passed and `expected` is used in error reporting. It is possible to return from
+custom **expectedFn** results of another matcher.
 
 ```javascript
-assert.deepEqual({ a: 1 }, custom( expected => expected.a === 1) )      // passes
-assert.deepEqual({ a: 1 }, custom( expected => expected.a !== 1) )      // throws
-assert.deepEqual({ a: 1 }, custom( expected => ({                       // passes
-    match: expected.a === 1,
-    expected: 1,
+assert.deepEqual({ a: 1 }, custom( actual => actual.a === 1) )      // passes
+assert.deepEqual({ a: 1 }, custom( actual => actual.a !== 1) )      // throws
+assert.deepEqual({ a: 1 }, custom( actual => ({                     // passes
+    match: actual.a === 1,
+    actual: 1,
 }) ))
-assert.deepEqual({ a: 1 }, custom( expected => ({                       // throws
-    match: expected.a !== 1,
-    expected: '["a" should not be equal to 1]',
+assert.deepEqual({ a: 1 }, custom( actual => ({                     // throws
+    match: actual.a !== 1,
+    actual: '["a" should not be equal to 1]',
 }) ))
+
+// return results of another matcher
+assert.deepEqual([1, 1, 1], custom(                                 // passes
+    (actual, comparator) => arrayOf(gt(0)).match(actual, comparator)
+))
+assert.deepEqual([1, 1, 'a'], custom(                               // throws
+    (actual, comparator) => arrayOf(1).match(actual, comparator)
+))
 ```
 
 FAQ
