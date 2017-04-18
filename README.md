@@ -375,6 +375,7 @@ by existing ones, so this feature would not be in great demand. Additionaly,
 always welcome to issues to provide your points why this or any other feature is
 required.
 
+<!--
 ### What about [`power-assert`](https://github.com/power-assert-js/power-assert)?
 
 [Yes, we have it `>:3`.]()
@@ -384,7 +385,6 @@ Examples
 
 Related projects
 ================
-<!--
 - power-assert-match
 - babel-preset-power-assert-match
 - babel-plugin-empower-assert-match-->

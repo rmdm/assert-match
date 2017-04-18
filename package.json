@@ -57,5 +57,13 @@
   },
   "engines": {
     "node": ">=0.10"
-  }
+  },
+  "files": [
+    "package.json",
+    "README.md",
+    "dst",
+    "LICENSE",
+    "CHANGELOG.md",
+    "matchers.js"
+  ]
 }

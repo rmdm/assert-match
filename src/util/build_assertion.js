@@ -1,6 +1,6 @@
 'use strict'
 
-import fallbackAssert from '../../node_modules/assert'
+import fallbackAssert from 'assert/'
 
 export default buildAssertion
 

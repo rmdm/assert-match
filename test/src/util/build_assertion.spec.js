@@ -1,6 +1,6 @@
 'use strict'
 
-import assert from '../../../node_modules/assert'
+import assert from 'assert/'
 import sinon from 'sinon'
 import buildAssertion from '../../../src/util/build_assertion'
 
