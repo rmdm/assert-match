@@ -113,7 +113,8 @@ with error details.
 - [not (expected)](#not-expected)
 - [every (expected)](#every-expected)
 - [some (expected)](#some-expected)
-- [arrayOf (expected)](#arrayOf-expected)
+- [arrayOf (expected)](#arrayof-expected)
+- [contains (expected)](#contains-expected)
 - [type (expected)](#type-expected)
 - [primitive (expected)](#primitive-expected)
 - [regex (expected)](#regex-expected)
@@ -218,6 +219,19 @@ wraps **expected** in `strict` matcher. Checks each element of the array against
 assert.deepEqual([ 1, 1, 1 ], arrayOf(1))   // passes
 assert.deepEqual([ 1, 1, 'a' ], arrayOf(1)) // throws
 assert.deepEqual(1, arrayOf(1))             // throws
+```
+
+### `contains (expected)`
+
+Expects **actual** value to be an array, check fails if it is not. Implicitly
+wraps **expected** in `strict` matcher. Checks that at leas one element of the
+array matches **expected**.
+
+```javascript
+assert.deepEqual([ 1, 1, 1 ], contains(1))       // passes
+assert.deepEqual([ 1, 'a', 'a' ], contains(1))   // passes
+assert.deepEqual([ 'a', 'a', 'a' ], contains(1)) // throws
+assert.deepEqual(1, contains(1))                 // throws
 ```
 
 ### `type (expected)`

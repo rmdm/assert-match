@@ -15,6 +15,7 @@ import Gt from './gt'
 import Gte from './gte'
 import Lt from './lt'
 import Lte from './lte'
+import Contains from './contains'
 
 const matchers = {}
 
@@ -49,6 +50,8 @@ defineMatcher(matchers, 'gte', Gte)
 defineMatcher(matchers, 'lt', Lt)
 
 defineMatcher(matchers, 'lte', Lte)
+
+defineMatcher(matchers, 'contains', Contains)
 
 function defineMatcher (matchers, name, Ctor) {
     Object.defineProperty(matchers, name, {

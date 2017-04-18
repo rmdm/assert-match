@@ -16,7 +16,8 @@ import {
     gt,
     gte,
     lt,
-    lte
+    lte,
+    contains
 } from '../../src/matchers'
 
 describe('random tests', function () {
@@ -78,6 +79,12 @@ describe('random tests', function () {
             assert.deepEqual([1, 1, 1], arrayOf(1))
             assert.throws(function () { assert.deepEqual([1, 1, 'a'], arrayOf(1)) })
             assert.throws(function () { assert.deepEqual(1, arrayOf(1)) })
+
+
+            assert.deepEqual([ 1, 1, 1 ], contains(1))
+            assert.deepEqual([ 1, 'a', 'a' ], contains(1))
+            assert.throws(function () { assert.deepEqual([ 'a', 'a', 'a' ], contains(1)) })
+            assert.throws(function () { assert.deepEqual(1, contains(1)) })
 
 
             assert.deepEqual(5, type('number'))
