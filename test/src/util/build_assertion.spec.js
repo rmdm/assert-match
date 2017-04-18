@@ -1,7 +1,6 @@
 'use strict'
 
-import assert from 'assert'
-import coreAssert from 'core-assert'
+import assert from '../../../node_modules/assert'
 import sinon from 'sinon'
 import buildAssertion from '../../../src/util/build_assertion'
 
@@ -43,7 +42,7 @@ describe('buildAssertion utility', function () {
 
     })
 
-    it('it fallbacks to core-assert when there is no required methods on passed baseAssert', function () {
+    it('it fallbacks to assert when there is no required methods on passed baseAssert', function () {
 
         const assertionName = 'deepEqual'
         const operatorName = 'match'
@@ -70,7 +69,7 @@ describe('buildAssertion utility', function () {
             throw new Error('assertion has unexpectedly not thrown.')
         } catch (e) {
 
-            assert(e instanceof coreAssert.AssertionError)
+            assert(e instanceof assert.AssertionError)
             assert.deepEqual(e.actual, {a: 1})
             assert.deepEqual(e.expected, {a: 2})
             assert.equal(e.operator, 'match')
