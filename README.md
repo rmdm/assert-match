@@ -26,8 +26,6 @@ const actual = {
 
 assert.deepEqual(actual, expected)
 
-//  In your test runner you get something similar to:
-//
 //  AssertionError: { str: 'abc', obj: { b: 1 }, nums: [ 1, 2, 'x' ] } deepEqual
 //  { str: 'abc',  obj: { b: 1 }, nums: [ 1, 2, { '[typeof]': 'number' } ] }
 //        + expected - actual
@@ -41,9 +39,6 @@ assert.deepEqual(actual, expected)
 //        +      "[typeof]": "number"
 //        +    }
 //           ]
-//           "obj": {
-//             "b": 1
-//           }
 
 ```
 
@@ -224,7 +219,7 @@ assert.deepEqual(1, arrayOf(1))             // throws
 ### `contains (expected)`
 
 Expects **actual** value to be an array, check fails if it is not. Implicitly
-wraps **expected** in `strict` matcher. Checks that at leas one element of the
+wraps **expected** in `strict` matcher. Checks that at least one element of the
 array matches **expected**.
 
 ```javascript
