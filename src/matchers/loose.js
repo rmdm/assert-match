@@ -4,7 +4,8 @@ import StrictMatcher from './strict'
 import {
     hasOwn,
     isMatcher,
-    isObject
+    isObject,
+    isStandardObject
 } from '../util/utils'
 
 export default class LooseMatcher extends StrictMatcher {
@@ -21,7 +22,7 @@ function pickMatching (actual, expected) {
         return undefined
     }
 
-    if (!isObject(actual) || !isObject(expected)) {
+    if (!isObject(actual) || !isObject(expected) || isStandardObject(actual)) {
         return actual
     }
 

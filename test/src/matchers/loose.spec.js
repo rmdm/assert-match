@@ -410,6 +410,40 @@ describe('Loose matcher', function () {
             })
         })
 
+        it('returns true if actual and expected are equal dates', function () {
+
+            const actual = new Date(2000, 10, 10),
+                expected = new Date(2000, 10, 10)
+
+            const loose = new Loose(expected)
+            comparator = (actual, expected) => actual.getTime() === expected.getTime()
+
+            const result = loose.check(actual, comparator)
+
+            assert.deepEqual(result, {
+                match: true,
+                actual: new Date(2000, 10, 10),
+                expected: new Date(2000, 10, 10),
+            })
+        })
+
+        it('returns false if actual and expected are not equal dates', function () {
+
+            const actual = new Date(2000, 10, 10),
+                expected = new Date(2000, 5, 5)
+
+            const loose = new Loose(expected)
+            comparator = (actual, expected) => actual.getTime() === expected.getTime()
+
+            const result = loose.check(actual, comparator)
+
+            assert.deepEqual(result, {
+                match: false,
+                actual: new Date(2000, 10, 10),
+                expected: new Date(2000, 5, 5),
+            })
+        })
+
     })
 
 })
