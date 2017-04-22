@@ -12,6 +12,7 @@ Short example
 ```javascript
 import assert from 'assert-match'
 import { loose, arrayOf, type } from 'assert-match/matchers'
+// or const { loose, arrayOf, type } = assert.matchers
 
 const actual = {
         str: 'abc',

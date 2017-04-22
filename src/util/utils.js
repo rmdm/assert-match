@@ -1,12 +1,13 @@
+'use strict'
+
 import StrictMatcher from '../matchers/strict'
 
 export default {
-
     hasOwn,
     isMatcher,
     isObject,
-    isStandardObject
-
+    isStandardObject,
+    iterateKeys
 }
 
 function hasOwn (obj, key) {
@@ -36,4 +37,26 @@ function isStandardObject (obj) {
 
 function isArguments(object) {
     return Object.prototype.toString.call(object) === '[object Arguments]'
+}
+
+function iterateKeys () {
+
+    const visited = []
+
+    return function keysIterator (obj, cb) {
+
+        if (!isObject(obj)) {
+            return
+        }
+
+        if (visited.indexOf(obj) !== -1) {
+            return
+        }
+
+        visited.push(obj)
+
+        for (let key in obj) {
+            cb(key)
+        }
+    }
 }

@@ -5,7 +5,8 @@ import {
     hasOwn,
     isMatcher,
     isObject,
-    isStandardObject
+    isStandardObject,
+    iterateKeys
 } from '../util/utils'
 
 export default class LooseMatcher extends StrictMatcher {
@@ -16,7 +17,11 @@ export default class LooseMatcher extends StrictMatcher {
 
 }
 
-function pickMatching (actual, expected) {
+function pickMatching (actual, expected, iterator) {
+
+    if (!iterator) {
+        iterator = iterateKeys()
+    }
 
     if (isMatcher(expected)) {
         return undefined
@@ -30,12 +35,12 @@ function pickMatching (actual, expected) {
         ? []
         : Object.create(Object.getPrototypeOf(actual))
 
-    for (let key in expected) {
+    iterator(expected, function (key) {
 
         if (hasOwn(actual, key) && hasOwn(expected, key) && !isMatcher(expected[key])) {
-            result[key] = pickMatching(actual[key], expected[key])
+            result[key] = pickMatching(actual[key], expected[key], iterator)
         }
-    }
+    })
 
     return result
 }

@@ -4,7 +4,8 @@ import {
     hasOwn,
     isMatcher,
     isObject,
-    isStandardObject
+    isStandardObject,
+    iterateKeys
 } from '../util/utils'
 
 const _merge = require('lodash.merge')
@@ -58,7 +59,11 @@ export default class StrictMatcher  {
 
 }
 
-function pickMatcherless (actual, expected) {
+function pickMatcherless (actual, expected, iterator) {
+
+    if (!iterator) {
+        iterator = iterateKeys()
+    }
 
     if (isMatcher(expected)) {
         return undefined
@@ -72,7 +77,7 @@ function pickMatcherless (actual, expected) {
         ? []
         : Object.create(Object.getPrototypeOf(actual))
 
-    for (let key in actual) {
+    iterator(actual, function (key) {
 
         if (hasOwn(actual, key)) {
 
@@ -82,15 +87,20 @@ function pickMatcherless (actual, expected) {
 
             // undefined in place of a matcher is ok only for top level
             if (!isMatcher(expectedValue)) {
-                result[key] = pickMatcherless(actual[key], expectedValue)
+                result[key] =
+                        pickMatcherless(actual[key], expectedValue, iterator)
             }
         }
-    }
+    })
 
     return result
 }
 
-function omitMatchers (expected) {
+function omitMatchers (expected, iterator) {
+
+    if (!iterator) {
+        iterator = iterateKeys()
+    }
 
     if (isMatcher(expected)) {
         return undefined
@@ -104,18 +114,22 @@ function omitMatchers (expected) {
         ? []
         : Object.create(Object.getPrototypeOf(expected))
 
-    for (let key in expected) {
+    iterator(expected, function (key) {
 
         // undefined in place of a matcher is ok only for top level
         if (hasOwn(expected, key) && !isMatcher(expected[key])) {
-            result[key] = omitMatchers(expected[key])
+            result[key] = omitMatchers(expected[key], iterator)
         }
-    }
+    })
 
     return result
 }
 
-function applyMatchers (actual, expected, comparator) {
+function applyMatchers (actual, expected, comparator, iterator) {
+
+    if (!iterator) {
+        iterator = iterateKeys()
+    }
 
     if (isMatcher(expected)) {
         return expected.match(actual, comparator)
@@ -135,13 +149,13 @@ function applyMatchers (actual, expected, comparator) {
         expected: undefined,
     }
 
-    for (let key in expected) {
+    iterator(expected, function (key) {
 
         if (hasOwn(expected, key)) {
 
             let actualValue = hasOwn(actual, key) ? actual[key] : undefined
 
-            const v = applyMatchers(actualValue, expected[key], comparator)
+            const v = applyMatchers(actualValue, expected[key], comparator, iterator)
 
             result.match = result.match && v.match
 
@@ -165,7 +179,7 @@ function applyMatchers (actual, expected, comparator) {
                 result.expected[key] = v.expected
             }
         }
-    }
+    })
 
     return result
 }
