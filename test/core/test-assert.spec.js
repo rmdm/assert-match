@@ -313,8 +313,8 @@ describe('core assert tests', function () {
         // assert.throws(makeBlock(assert.deepStrictEqual, Symbol(), Symbol()),
         //                             a.AssertionError);
 
-        // var s = Symbol();
-        // assert.doesNotThrow(makeBlock(assert.deepStrictEqual, s, s));
+        var s = Symbol();
+        assert.doesNotThrow(makeBlock(assert.deepStrictEqual, s, s));
 
 
         // primitives and object
