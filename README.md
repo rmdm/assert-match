@@ -74,8 +74,8 @@ Assertions
 - ```assert.notDeepStrictEqual (actual, expected, [message])```
 
 `assert-match` allows you to check **actual** value (or its property) not
-against a specific **expected** value (or ist property) as standard `deep`
-assertions do, but aganst a matcher or a combination of them.
+against a specific **expected** value as standard `deep` assertions do, but
+against a matcher or a combination of them.
 Without using matchers these assertions behave exactly like their standard
 counterparts which [has been tested](test/core/test-assert.spec.js) against the
 same set of tests as the standard ones.
@@ -195,7 +195,7 @@ assert.deepEqual({ a: 1, b: 2 }, every(loose({ a: 1 })))                        
 
 **expected** should be an array. If it is not, than it is treated as one-element
 array. Each element of **expected** array is wrapped implicitly in `strict`
-matcher. `every` matcher checks whether **actual** value matches at least one
+matcher. `some` matcher checks whether **actual** value matches at least one
 matcher of **expected**.
 
 ```javascript
@@ -208,8 +208,8 @@ assert.deepEqual({ a: 1, b: 2 }, some(loose({ a: 1 })))                         
 ### `arrayOf (expected)`
 
 Expects **actual** value to be an array, check fails if it is not. Implicitly
-wraps **expected** in `strict` matcher. Checks each element of the array against
-**expected** matcher.
+wraps **expected** in `strict` matcher. Checks that all elements of the array
+match **expected**.
 
 ```javascript
 assert.deepEqual([ 1, 1, 1 ], arrayOf(1))   // passes
@@ -268,7 +268,7 @@ assert.deepEqual('123', regex('^\D+$'))            // throws
 
 ### `gt (expected)`
 
-Checks if **actual** greater than **expected**.
+Checks if **actual** is greater than **expected**.
 
 ```javascript
 assert.deepEqual('b', gt('a'))                              // passes
@@ -281,7 +281,7 @@ assert.deepEqual([ 1 ], loose({ length: gt(1) }))           // throws
 
 ### `gte (expected)`
 
-Checks if **actual** greater than or equal to **expected**.
+Checks if **actual** is greater than or equal to **expected**.
 
 ```javascript
 assert.deepEqual('b', gte('a'))                             // passes
@@ -294,7 +294,7 @@ assert.deepEqual([ 1 ], loose({ length: gte(1) }))          // passes
 
 ### `lt (expected)`
 
-Checks if **actual** less than **expected**.
+Checks if **actual** is less than **expected**.
 
 ```javascript
 assert.deepEqual('a', lt('b'))                              // passes
@@ -307,7 +307,7 @@ assert.deepEqual([ 1 ], loose({ length: lt(1) }))           // throws
 
 ### `lte (expected)`
 
-Checks if **actual** less than or equal to **expected**.
+Checks if **actual** is less than or equal to **expected**.
 
 ```javascript
 assert.deepEqual('a', lte('b'))                             // passes
@@ -332,11 +332,11 @@ assert.deepEqual({ a: 1 }, custom( actual => actual.a === 1) )      // passes
 assert.deepEqual({ a: 1 }, custom( actual => actual.a !== 1) )      // throws
 assert.deepEqual({ a: 1 }, custom( actual => ({                     // passes
     match: actual.a === 1,
-    actual: 1,
+    expected: 1,
 }) ))
 assert.deepEqual({ a: 1 }, custom( actual => ({                     // throws
     match: actual.a !== 1,
-    actual: '["a" should not be equal to 1]',
+    expected: '["a" should not be equal to 1]',
 }) ))
 
 // return results of another matcher
