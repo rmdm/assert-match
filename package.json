@@ -19,10 +19,10 @@
   },
   "keywords": [
     "assert",
-    "assert-match",
-    "isMatch",
+    "matchers",
     "match",
-    "matchers"
+    "isMatch",
+    "assert-match"
   ],
   "author": "rmdm",
   "license": "MIT",

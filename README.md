@@ -46,7 +46,7 @@ assert.deepEqual(actual, expected)
 Installation
 ============
 
-```shell
+```sh
     npm install assert-match
 ```
 
@@ -372,6 +372,9 @@ are cases when you care more not about specific values but rather about their
 shapes or features. `assert-match` tries to consistently address these two
 points.
 
+### What about [`power-assert`](https://github.com/power-assert-js/power-assert)?
+[Yes, we have it `>:3`.](https://github.com/rmdm/power-assert-match)
+
 ### Why no extension API?
 
 For matchers to be combinable means that not many of them can not be expressed
@@ -380,16 +383,6 @@ by existing ones, so this feature would not be in great demand. Additionaly,
 always welcome to issues to provide your points why this or any other feature is
 required.
 
-<!--
-### What about [`power-assert`](https://github.com/power-assert-js/power-assert)?
-
-[Yes, we have it `>:3`.]()
-
-Examples
-========
-
 Related projects
 ================
-- power-assert-match
-- babel-preset-power-assert-match
-- babel-plugin-empower-assert-match-->
+- [power-assert-match](https://github.com/rmdm/power-assert-match)
