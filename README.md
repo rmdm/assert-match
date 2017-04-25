@@ -157,7 +157,8 @@ assert.deepEqual({ a: 1 }, loose({ a: 1, b: 2 }))           // throws
 ### `any (expected)`
 
 Matches anything. Can be used if value or existance of a specific **actual**
-property does not matter.
+property does not matter. It is supposed to be used in context of `strict`
+matcher, in context of `loose` matcher it makes a little sense.
 
 ```javascript
 assert.deepEqual(undefined, any())                                  // passes

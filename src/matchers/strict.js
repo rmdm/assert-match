@@ -8,7 +8,7 @@ import {
     iterateKeys
 } from '../util/utils'
 
-const _merge = require('lodash.merge')
+import _merge from 'lodash.merge'
 
 export default class StrictMatcher  {
 
