@@ -98,6 +98,8 @@ describe('random tests', function () {
             assert.deepEqual({ toString: () => 'abc' }, primitive('abc'))
             assert.deepEqual(1, primitive(1))
             assert.throws(function () { assert.deepEqual(10, primitive(1)) })
+            assert.deepEqual(1, primitive('1'))
+            assert.throws(function () { assert.deepStrictEqual(1, primitive('1')) })
 
 
             assert.deepEqual('abc', regex('^a'))

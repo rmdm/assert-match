@@ -208,9 +208,9 @@ assert.deepEqual({ a: 1, b: 2 }, some(loose({ a: 1 })))                         
 
 ### `arrayOf (expected)`
 
-Expects **actual** value to be an array, check fails if it is not. Implicitly
-wraps **expected** in `strict` matcher. Checks that all elements of the array
-match **expected**.
+Expects **actual** value to be a non-empty array, check fails if it is not.
+Implicitly wraps **expected** in `strict` matcher. Checks that all elements of
+the array match **expected**.
 
 ```javascript
 assert.deepEqual([ 1, 1, 1 ], arrayOf(1))   // passes
@@ -220,9 +220,9 @@ assert.deepEqual(1, arrayOf(1))             // throws
 
 ### `contains (expected)`
 
-Expects **actual** value to be an array, check fails if it is not. Implicitly
-wraps **expected** in `strict` matcher. Checks that at least one element of the
-array matches **expected**.
+Expects **actual** value to be a non-empty array, check fails if it is not.
+Implicitly wraps **expected** in `strict` matcher. Checks that at least one
+element of the array matches **expected**.
 
 ```javascript
 assert.deepEqual([ 1, 1, 1 ], contains(1))       // passes
@@ -246,14 +246,17 @@ assert.deepEqual({ a: 1 }, type({ a: 1 }))     // throws
 
 ### `primitive (expected)`
 
-**actual** and **expected** both converted to primitive and compared.
+**actual** and **expected** both converted to primitive and compared (actual
+operator == or === depends on assertion used).
 
 ```javascript
-assert.deepEqual({}, primitive('[object Object]'))             // passes
-assert.deepEqual(new String('abc'), primitive('abc'))          // passes
-assert.deepEqual({ toString: () => 'abc' }, primitive('abc'))  // passes
-assert.deepEqual(1, primitive(1))                              // passes
-assert.deepEqual(10, primitive(1))                             // throws
+assert.deepEqual({}, primitive('[object Object]'))              // passes
+assert.deepEqual(new String('abc'), primitive('abc'))           // passes
+assert.deepEqual({ toString: () => 'abc' }, primitive('abc'))   // passes
+assert.deepEqual(1, primitive(1))                               // passes
+assert.deepEqual(10, primitive(1))                              // throws
+assert.deepEqual(1, primitive('1'))                             // passes
+assert.deepStrictEqual(1, primitive('1'))                       // throws
 ```
 
 ### `regex (expected)`
