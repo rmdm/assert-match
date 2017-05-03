@@ -37,6 +37,8 @@ describe('core assert tests', function () {
             };
         }
 
+        var node_0_12 = process.version.match('v0.12')
+
         assert.ok(a.AssertionError.prototype instanceof Error,
                             'a.AssertionError instanceof Error');
 
@@ -200,7 +202,9 @@ describe('core assert tests', function () {
         assert.throws(makeBlock(a.deepEqual, 1, {}), a.AssertionError);
         assert.throws(makeBlock(a.deepEqual, true, {}), a.AssertionError);
 
-        assert.throws(makeBlock(a.deepEqual, Symbol(), {}), a.AssertionError);
+        if (!node_0_12) {
+            assert.throws(makeBlock(a.deepEqual, Symbol(), {}), a.AssertionError);
+        }
 
         // primitive wrappers and object
         assert.doesNotThrow(makeBlock(a.deepEqual, new String('a'), ['a']),
@@ -332,12 +336,14 @@ describe('core assert tests', function () {
                                     a.AssertionError);
         assert.throws(makeBlock(assert.deepStrictEqual, true, 1),
                                     a.AssertionError);
-        assert.throws(makeBlock(assert.deepStrictEqual, Symbol(), Symbol()),
-                                    a.AssertionError);
 
-        var s = Symbol();
-        assert.doesNotThrow(makeBlock(assert.deepStrictEqual, s, s));
+        if (!node_0_12) {
+            assert.throws(makeBlock(assert.deepStrictEqual, Symbol(), Symbol()),
+                                        a.AssertionError);
 
+            var s = Symbol();
+            assert.doesNotThrow(makeBlock(assert.deepStrictEqual, s, s));
+        }
 
         // primitives and object
         assert.throws(makeBlock(a.deepStrictEqual, null, {}), a.AssertionError);
@@ -346,8 +352,11 @@ describe('core assert tests', function () {
         assert.throws(makeBlock(a.deepStrictEqual, 'a', {0: 'a'}), a.AssertionError);
         assert.throws(makeBlock(a.deepStrictEqual, 1, {}), a.AssertionError);
         assert.throws(makeBlock(a.deepStrictEqual, true, {}), a.AssertionError);
-        assert.throws(makeBlock(assert.deepStrictEqual, Symbol(), {}),
-                                    a.AssertionError);
+
+        if (!node_0_12) {
+            assert.throws(makeBlock(assert.deepStrictEqual, Symbol(), {}),
+                                        a.AssertionError);
+        }
 
 
         // primitive wrappers and object
