@@ -126,7 +126,7 @@ to an assertion.
 
 ### `strict (expected)`
 
-Returns an insatnce of the root matchers class. All other matchers inherit from
+Returns an instance of the root matchers class. All other matchers inherit from
 that class. It checks whether two values are equal in depth. Actual comparison
 operator (== or ===) for primitives depends on assertion in which this matcher
 is used (for example, == is used for `deepEqual` whereas === is used for
@@ -156,7 +156,7 @@ assert.deepEqual({ a: 1 }, loose({ a: 1, b: 2 }))           // throws
 
 ### `any (expected)`
 
-Matches anything. Can be used if value or existance of a specific **actual**
+Matches anything. Can be used if value or existence of a specific **actual**
 property does not matter. It is supposed to be used in context of `strict`
 matcher, in context of `loose` matcher it makes a little sense.
 
@@ -324,7 +324,7 @@ assert.deepEqual([ 1 ], loose({ length: lte(1) }))          // passes
 
 ### `custom (expectedFn)`
 
-If **expectedFn** is not a function than this matcher fallbacks to `strict`
+If **expectedFn** is not a function than this matcher falls back to `strict`
 matcher. An **actual** value is passed to **expectedFn** to check.
 **expectedFn** should return either boolean result or an object with
 the `match` and `expected` fields. boolean `match` property says whether check
@@ -363,10 +363,10 @@ through matchers.
 
 ### Why yet another matchers?
 
-Existing assertion libraries provide you with tonns of crazy named matchers and
-each new use case requires them (or you) to introduce completly new matcher. On
+Existing assertion libraries provide you with tons of crazy named matchers and
+each new use case requires them (or you) to introduce completely new matcher. On
 the other hand `assert-match` provides you with succinct set of combinable
-matchers, sufficent to reproduce all the matchers of that libs in a clear way.
+matchers, sufficient to reproduce all the matchers of that libs in a clear way.
 
 ### Why does matchers are strict by default?
 
@@ -382,7 +382,7 @@ points.
 ### Why no extension API?
 
 For matchers to be combinable means that not many of them can not be expressed
-by existing ones, so this feature would not be in great demand. Additionaly,
+by existing ones, so this feature would not be in great demand. Additionally,
 `custom` matcher may be used for this purpose to some extent. However, you are
 always welcome to issues to provide your points why this or any other feature is
 required.
