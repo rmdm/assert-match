@@ -444,6 +444,36 @@ describe('Loose matcher', function () {
             })
         })
 
-    })
+        it('matches length of an array', function () {
 
+            const actual = [ 1, 2, 3 ]
+            const expected = { length: 3 }
+
+            const loose = new Loose(expected)
+
+            const result = loose.check(actual, x => true)
+
+            assert.deepEqual(result, {
+                match: true,
+                actual: { length: 3 },
+                expected: { length: 3 },
+            })
+        })
+
+        it('does not match length of an array', function () {
+
+            const actual = [ 1, 2, 3 ]
+            const expected = { length: 5 }
+
+            const loose = new Loose(expected)
+
+            const result = loose.check(actual, x => true)
+
+            assert.deepEqual(result, {
+                match: true,
+                actual: { length: 3 },
+                expected: { length: 5 },
+            })
+        })
+    })
 })

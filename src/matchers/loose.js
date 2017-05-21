@@ -31,9 +31,9 @@ function pickMatching (actual, expected, iterator) {
         return actual
     }
 
-    let result = Array.isArray(actual)
+    let result = Array.isArray(expected)
         ? []
-        : Object.create(Object.getPrototypeOf(actual))
+        : Object.create(Object.getPrototypeOf(expected))
 
     iterator(expected, function (key) {
 
