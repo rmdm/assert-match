@@ -246,8 +246,10 @@ assert.deepEqual({ a: 1 }, type({ a: 1 }))     // throws
 
 ### `primitive (expected)`
 
-**actual** and **expected** both converted to primitive and compared (actual
-operator == or === depends on assertion used).
+If **expected** is a matcher than **actual** is converted to primitive and
+matched against **expected**. Otherwise, **actual** and **expected** both
+converted to primitive and compared (actual operator == or === depends on
+assertion used).
 
 ```javascript
 assert.deepEqual({}, primitive('[object Object]'))              // passes
@@ -257,6 +259,8 @@ assert.deepEqual(1, primitive(1))                               // passes
 assert.deepEqual(10, primitive(1))                              // throws
 assert.deepEqual(1, primitive('1'))                             // passes
 assert.deepStrictEqual(1, primitive('1'))                       // throws
+assert.deepEqual({}, primitive(regex('obj')))                   // passes
+assert.deepEqual({}, primitive(regex('abc')))                   // throws
 ```
 
 ### `regex (expected)`

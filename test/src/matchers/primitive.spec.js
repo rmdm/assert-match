@@ -3,6 +3,7 @@
 import assert from 'assert'
 import sinon from 'sinon'
 import Primitive from '../../../src/matchers/primitive'
+import { regex } from '../../../src/matchers'
 
 describe('primitive matcher', function () {
 
@@ -42,7 +43,7 @@ describe('primitive matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 actual: new Number(5),
-                expected: 10,
+                expected: { '[primitively matches]': 10 },
             })
         })
 
@@ -76,7 +77,7 @@ describe('primitive matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 actual: actual,
-                expected: { '[primitively equal to]': 5 },
+                expected: { '[primitively matches]': 5 },
             })
         })
 
@@ -94,7 +95,39 @@ describe('primitive matcher', function () {
             assert.deepEqual(result, {
                 match: false,
                 actual: 5,
-                expected: {'[primitively equal to]': expected },
+                expected: {'[primitively matches]': expected },
+            })
+        })
+
+        it('matches when expected is a matcher that matches', function () {
+
+            const actual = {}
+            const expected = regex('obj')
+
+            const primitive = new Primitive(expected)
+
+            const result = primitive.match(actual, x => true)
+
+            assert.deepEqual(result, {
+                match: true,
+                actual: {},
+                expected: {},
+            })
+        })
+
+        it('does not match when expected is a matcher that not match', function () {
+
+            const actual = {}
+            const expected = regex('arr')
+
+            const primitive = new Primitive(expected)
+
+            const result = primitive.match(actual, x => false)
+
+            assert.deepEqual(result, {
+                match: false,
+                actual: {},
+                expected: { '[primitively matches]': '/arr/' },
             })
         })
 

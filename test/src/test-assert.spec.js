@@ -100,6 +100,8 @@ describe('random tests', function () {
             assert.throws(function () { assert.deepEqual(10, primitive(1)) })
             assert.deepEqual(1, primitive('1'))
             assert.throws(function () { assert.deepStrictEqual(1, primitive('1')) })
+            assert.deepEqual({}, primitive(regex('obj')))
+            assert.throws(function () { assert.deepEqual({}, primitive(regex('abc'))) })
 
 
             assert.deepEqual('abc', regex('^a'))

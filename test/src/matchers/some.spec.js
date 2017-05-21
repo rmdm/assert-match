@@ -42,7 +42,7 @@ describe('some matcher', function () {
                     '[some of]': [
                         0,
                         { '[typeof]': 'string' },
-                        10,
+                        { '[primitively matches]': 10 },
                     ],
                 },
             })

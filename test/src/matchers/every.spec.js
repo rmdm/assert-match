@@ -42,7 +42,7 @@ describe('every matcher', function () {
                     '[every of]': [
                         5,
                         5,
-                        10
+                        { '[primitively matches]': 10 },
                     ],
                 },
             })
