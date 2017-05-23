@@ -467,10 +467,10 @@ describe('Loose matcher', function () {
 
             const loose = new Loose(expected)
 
-            const result = loose.check(actual, x => true)
+            const result = loose.check(actual, x => false)
 
             assert.deepEqual(result, {
-                match: true,
+                match: false,
                 actual: { length: 3 },
                 expected: { length: 5 },
             })

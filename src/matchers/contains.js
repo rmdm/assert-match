@@ -4,6 +4,10 @@ import StrictMatcher from './strict'
 
 export default class ContainsMatcher extends StrictMatcher {
 
+    constructor (... expected) {
+        super(expected)
+    }
+
     match (actual, comparator) {
 
         if (!Array.isArray(actual)) {
@@ -24,22 +28,33 @@ export default class ContainsMatcher extends StrictMatcher {
             }
         }
 
-        let match = false
+        const notContained = this.expected.filter(function (expected) {
 
-        const expected = actual.map(function (el) {
+            return !actual.some(function (el) {
 
-            const result = this.check(el, comparator)
-            match = match || result.match
+                const elMatcher = new StrictMatcher(expected)
 
-            return result.match ? result.actual : result.expected
+                const result = elMatcher.match(el, comparator)
+
+                return result.match
+            }, this)
         }, this)
 
-        return {
-            match: match,
-            actual: actual,
-            expected: match ? actual : expected,
+        if (notContained.length) {
+
+            return {
+                match: false,
+                actual: actual,
+                expected: {
+                    '[to contain]': notContained,
+                }
+            }
         }
 
+        return {
+            match: true,
+            actual: actual,
+            expected: actual,
+        }
     }
-
 }

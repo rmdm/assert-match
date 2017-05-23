@@ -85,6 +85,8 @@ describe('random tests', function () {
             assert.deepEqual([ 1, 'a', 'a' ], contains(1))
             assert.throws(function () { assert.deepEqual([ 'a', 'a', 'a' ], contains(1)) })
             assert.throws(function () { assert.deepEqual(1, contains(1)) })
+            assert.deepEqual([ 1, 2, 3 ], contains(1, 2))
+            assert.throws(function () { assert.deepEqual([ 1, 2, 3 ], contains(1, 10)) })
 
 
             assert.deepEqual(5, type('number'))

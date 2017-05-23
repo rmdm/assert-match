@@ -55,8 +55,8 @@ defineMatcher(matchers, 'contains', Contains)
 
 function defineMatcher (matchers, name, Ctor) {
     Object.defineProperty(matchers, name, {
-        value: function matcher (expected) {
-            return new Ctor(expected)
+        value: function matcher (... expected) {
+            return new Ctor(... expected)
         },
     })
 }

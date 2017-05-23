@@ -218,17 +218,19 @@ assert.deepEqual([ 1, 1, 'a' ], arrayOf(1)) // throws
 assert.deepEqual(1, arrayOf(1))             // throws
 ```
 
-### `contains (expected)`
+### `contains (expected1 [, expected2, ...])`
 
 Expects **actual** value to be a non-empty array, check fails if it is not.
-Implicitly wraps **expected** in `strict` matcher. Checks that at least one
-element of the array matches **expected**.
+Accepts a list of **expected**. Checks that each element of the **expected**
+list matches at least one element in the **actual** array.
 
 ```javascript
 assert.deepEqual([ 1, 1, 1 ], contains(1))       // passes
 assert.deepEqual([ 1, 'a', 'a' ], contains(1))   // passes
 assert.deepEqual([ 'a', 'a', 'a' ], contains(1)) // throws
 assert.deepEqual(1, contains(1))                 // throws
+assert.deepEqual([ 1, 2, 3 ], contains(1, 2))    // passes
+assert.deepEqual([ 1, 2, 3 ], contains(1, 10))   // throws
 ```
 
 ### `type (expected)`
