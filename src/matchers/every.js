@@ -13,25 +13,33 @@ export default class EveryMatcher extends StrictMatcher {
             return innerMatcher.match(actual, comparator)
         }
 
-        let match = true
-
-        let expected = this.expected.map(function (expected) {
+        let notMatched = this.expected.map(function (expected) {
 
             const innerMatcher = new StrictMatcher(expected)
             const result = innerMatcher.match(actual, comparator)
 
-            match = match && result.match
-
-            return result.match ? result.actual : result.expected
+            return result
         }, this)
+        .filter(function (result) {
+            return !result.match
+        })
+        .map(function (result) {
+            return result.expected
+        })
 
-        expected = match ? actual : { '[every of]': expected }
+        if (notMatched.length) {
+
+            return {
+                match: false,
+                actual: actual,
+                expected: { '[every of]': notMatched }
+            }
+        }
 
         return {
-            match: match,
+            match: true,
             actual: actual,
-            expected: expected,
+            expected: actual,
         }
     }
-
 }

@@ -40,8 +40,6 @@ describe('every matcher', function () {
                 actual: 5,
                 expected: {
                     '[every of]': [
-                        5,
-                        5,
                         { '[primitively matches]': 10 },
                     ],
                 },
