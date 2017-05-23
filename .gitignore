@@ -1,5 +1,5 @@
 node_modules
-npm-debug.log
+npm-debug.log*
 coverage
 dst
 .nyc_output

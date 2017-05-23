@@ -1,6 +1,6 @@
 {
   "name": "assert-match",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "assert + matchers <3",
   "main": "dst/index.js",
   "scripts": {
