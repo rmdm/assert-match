@@ -3,6 +3,7 @@
 import assert from 'assert'
 import sinon from 'sinon'
 import Contains from '../../../src/matchers/contains'
+import { loose } from '../../../src/matchers'
 
 describe('contains matcher', function () {
 
@@ -111,6 +112,36 @@ describe('contains matcher', function () {
                 match: true,
                 actual: [ 1, 2, 3, 4, 5, 7 ],
                 expected: [ 1, 2, 3, 4, 5, 7 ],
+            })
+        })
+
+        it('does not matches expected containing matchers', function () {
+
+            const actual = [ 1, 2 ]
+            const expected = loose(7)
+            const contains = new Contains(expected)
+
+            const result = contains.match(actual, (a, b) => a === b )
+
+            assert.deepEqual(result, {
+                match: false,
+                actual: [ 1, 2 ],
+                expected: { '[to contain]': [ 7 ] },
+            })
+        })
+
+        it('matches expected containing matchers', function () {
+
+            const actual = [ 1, 2 ]
+            const expected = loose(1)
+            const contains = new Contains(expected)
+
+            const result = contains.match(actual, (a, b) => a === b )
+
+            assert.deepEqual(result, {
+                match: true,
+                actual: [ 1, 2 ],
+                expected: [ 1, 2 ],
             })
         })
 

@@ -28,7 +28,8 @@ export default class ContainsMatcher extends StrictMatcher {
             }
         }
 
-        const notContained = this.expected.filter(function (expected) {
+        const notContained = this.expected
+        .filter(function (expected) {
 
             return !actual.some(function (el) {
 
@@ -38,6 +39,15 @@ export default class ContainsMatcher extends StrictMatcher {
 
                 return result.match
             }, this)
+        }, this)
+        .map(function (expected) {
+
+            const elMatcher = new StrictMatcher(expected)
+
+            // use any element of actual array to get expected value of not contained
+            const result = elMatcher.match(actual[0], comparator)
+
+            return result.expected
         }, this)
 
         if (notContained.length) {
