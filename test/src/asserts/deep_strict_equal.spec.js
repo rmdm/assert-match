@@ -148,4 +148,10 @@ describe('deepStrictEqual assertion', function () {
         }
     })
 
+    it('respects objects occuring in several places in hierarchy', function () {
+
+        const a = { value: 10 }
+
+        deepStrictEqual([ a, a ], [ { value: 10 }, { value: 10 } ])
+    })
 })

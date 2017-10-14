@@ -110,7 +110,7 @@ with error details.
 - [every (expected)](#every-expected)
 - [some (expected)](#some-expected)
 - [arrayOf (expected)](#arrayof-expected)
-- [contains (expected)](#contains-expected)
+- [contains (expected)](#contains-expected1-expected2)
 - [type (expected)](#type-expected)
 - [primitive (expected)](#primitive-expected)
 - [regex (expected)](#regex-expected)

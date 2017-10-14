@@ -58,5 +58,7 @@ function iterateKeys () {
         for (let key in obj) {
             cb(key)
         }
+
+        visited.pop()
     }
 }
